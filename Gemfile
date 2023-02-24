@@ -65,3 +65,5 @@ group :development do
 end
 
 gem 'dotenv-rails'
+gem 'slim-rails'
+gem 'html2slim'
