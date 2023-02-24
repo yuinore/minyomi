@@ -73,3 +73,5 @@ end
 gem 'dotenv-rails'
 gem 'html2slim'
 gem 'slim-rails'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
