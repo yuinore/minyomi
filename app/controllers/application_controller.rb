@@ -1,4 +1,14 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  skip_forgery_protection
+
+  include SessionsHelper
+  before_action :check_logged_in
+
+  def check_logged_in
+    return if current_user
+
+    redirect_to root_path
+  end
 end

@@ -11,3 +11,11 @@ html
     | (Header)
     = yield
     | (Footer)
+    - if current_user
+      = image_tag current_user.image
+      = current_user.nameさん
+      = link_to "ログアウト", log_out_path
+    - else
+      | ゲストさん
+      = link_to "Googleでログイン", "/auth/google_oauth2", method: :post
+      = button_to "Googleでログイン2", "/auth/google_oauth2",　method: :post, data: { turbo: false }
