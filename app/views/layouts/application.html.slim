@@ -8,4 +8,6 @@ html
     = csp_meta_tag
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
   body
+    | (Header)
     = yield
+    | (Footer)
