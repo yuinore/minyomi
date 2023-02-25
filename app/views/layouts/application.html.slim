@@ -2,20 +2,39 @@ doctype html
 html
   head
     title
-      | Minyomi
+      - unless @word.nil?
+        = "#{@word.name} | "
+      | みんヨミ！ ～みんなの読み方教えてよ！～
     meta[name="viewport" content="width=device-width,initial-scale=1"]
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
+
+    link rel="preconnect" href="https://koruri.chillout.chat"
+    link rel="stylesheet" href="https://koruri.chillout.chat/koruri.css"
+
+    link rel="preconnect" href="https://fonts.googleapis.com"
+    link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""
+    link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"
+
+    meta name="viewport" content="width=device-width,initial-scale=1"
   body
-    | (Header)
-    = yield
-    | (Footer)
-    - if current_user
-      = image_tag current_user.image
-      = current_user.name
-      | さん
-      = link_to "ログアウト", logout_path
-    - else
-      | ゲストさん
-      = button_to "Sign in with Google", "/auth/google_oauth2",　method: :post, data: { turbo: false }
+    .main_header
+      | みんヨミ！ ～みんなの読み方教えてよ！～
+      br
+      - if current_user
+        = image_tag current_user.image
+        = current_user.name
+        | さん
+        = link_to "ログアウト", logout_path
+      - else
+        | ゲストさん
+        = button_to "Sign in with Google", "/auth/google_oauth2",　method: :post, data: { turbo: false }
+    .main_margin
+      = yield
+      hr
+      .main_footer
+        | みんヨミ！ ～みんなの読み方教えてよ！～
+        br
+        | Copyright © 2023-2023 @yuinore Some Rights Reserved.
+        br
