@@ -1,0 +1,8 @@
+h1 word#show
+= @word.to_json
+br
+| choices:
+br
+- @word.choices.each do |choice|
+  = choice.to_json
+  br

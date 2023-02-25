@@ -11,5 +11,7 @@ Rails.application.routes.draw do
   resources :words, only: %i[index]
   resources :choices, only: %i[index]
 
+  get 'i/:slug', to: 'words#show'
+
   resources :sessions, only: %i[create destroy]
 end
