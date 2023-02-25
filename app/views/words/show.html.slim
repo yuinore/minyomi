@@ -12,7 +12,7 @@
     - [*@word.choices, nil].each do |choice|
       div.choices
         - id = choice&.id || "default"
-        label.choices id="label_choice_#{id}"
+        label.choices style="--chart-percentage: #{(choice&.count || 0) * 4.0}%;"
           input name="choices" type="radio" value="choice_#{id}"
           span.check_dummy
           span.check_dummy_focus
