@@ -1,0 +1,11 @@
+h1 profile
+- if current_user
+  = image_tag current_user.image
+  hr
+  | ようこそ
+  = current_user.name
+  | さん
+  br
+  = link_to "ログアウト", logout_path
+- else
+  | ゲストさん
