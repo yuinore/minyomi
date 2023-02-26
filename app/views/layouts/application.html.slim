@@ -20,16 +20,16 @@ html
     meta name="viewport" content="width=device-width,initial-scale=1"
   body
     .main_header
-      | みんヨミ！ ～みんなの読み方教えてよ！～
-      br
-      - if current_user
-        = image_tag current_user.image
-        = current_user.name
-        | さん
-        = link_to "ログアウト", logout_path
-      - else
-        | ゲストさん
-        = button_to "Sign in with Google", "/auth/google_oauth2",　method: :post, data: { turbo: false }
+      .main_header_logo
+        | みんヨミ！
+        span.main_header_logo_subtitle
+          | ～みんなの読み方教えてよ！～
+      .main_header_account
+        - if current_user
+          a href="/profile"
+            = image_tag current_user.image
+        - else
+          = button_to "Sign in with Google", "/auth/google_oauth2",　method: :post, data: { turbo: false }
     .main_margin
       = yield
       hr

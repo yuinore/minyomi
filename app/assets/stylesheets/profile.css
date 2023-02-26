@@ -1,0 +1,14 @@
+div.main_profile_account {
+  font-size: 18px;
+}
+
+div.main_profile_account img {
+  height: 200px;
+  width: auto;
+  border-radius: 99999px;
+  display: block;
+  margin: auto;
+  box-shadow: 3px 3px 5px 1px rgba(6, 79, 6, 0.25);
+}
+
+
