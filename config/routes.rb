@@ -9,10 +9,10 @@ Rails.application.routes.draw do
   get 'logout', to: 'sessions#destroy', as: 'logout'
 
   resources :words, only: %i[index]
-  resources :choices, only: %i[index]
+  resources :choices, only: %i[index create]
   resources :profile, only: %i[index]
 
-  get 'i/:slug', to: 'words#show'
+  get 'i/:slug', to: 'words#show', as: 'word'
 
   resources :sessions, only: %i[create destroy]
 end
