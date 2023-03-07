@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   resources :words, only: %i[index]
   resources :choices, only: %i[index create]
+  resources :votes, only: %i[index]
   resources :profile, only: %i[index]
 
   get 'i/:slug', to: 'words#show', as: 'word'
