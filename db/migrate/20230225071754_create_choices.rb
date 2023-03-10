@@ -7,6 +7,9 @@ class CreateChoices < ActiveRecord::Migration[7.0]
       t.references :word, null: false, foreign_key: true
 
       t.timestamps
+
+      t.index :created_at
+      t.index :updated_at
     end
   end
 end
