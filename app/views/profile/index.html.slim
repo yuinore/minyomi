@@ -1,0 +1,15 @@
+= stylesheet_link_tag 'profile'
+
+h1 profile
+.main_profile_account
+  - if current_user
+    = image_tag current_user.image
+    hr
+    span
+      | ようこそ、
+      = current_user.name
+      | さん
+    br
+    = link_to "ログアウト", logout_path
+  - else
+    | ゲストさん

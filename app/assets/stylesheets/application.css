@@ -1,15 +1,374 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
- *= require_tree .
- *= require_self
- */
+/************************/
+/******** body ********/
+/************************/
+
+body {
+  font-size: 20px;
+  font-family: 'Poppins', "Koruri", sans-serif;
+  color: rgba(6, 79, 6, 1);
+  background-color: rgb(255, 255, 255);
+  padding: 0;
+  margin: 0;
+
+  background-image:
+    linear-gradient(45deg, rgba(137, 233, 152, 0.5) 0%, rgba(137, 233, 152, 0.5) 100%),
+    url("raindrop_background.svg"),
+    url("raindrop_background.svg"),
+    linear-gradient(45deg, rgba(137, 233, 152, 1) 0%, rgba(137, 233, 152, 1) 100%);
+  background-position:
+    0 100px,
+    0 100px,
+    calc(200px * 1200 / 29900) calc(200px * 1200 / 29900 + 100px),
+    0 100px;
+  background-size:
+    100px 1200px,
+    auto 1200px,
+    auto 1200px,
+    100px 1200px;
+  background-repeat:
+    repeat,
+    repeat-x,
+    repeat-x,
+    repeat-x;
+}
+
+h1 {
+  font-size: 70px;
+  text-align: center;
+  margin: 20px 0px 30px 0px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  /*space-around;*/
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+h1 span.title {
+  color: #000000;
+  /*border-radius: 20px;*/
+  display: inline;
+  padding: 10px 40px;
+  border: 7px dotted rgba(135, 219, 245, 1.0);
+  border-left: none;
+  border-right: none;
+
+  flex: 0 1 auto;
+}
+
+div.subtitle {
+  font-size: 15px;
+  text-align: center;
+}
+
+/************************/
+/******** header ********/
+/************************/
+
+div.main_header {
+  margin: 0;
+  width: 100%;
+  height: 100px;
+  color: rgba(6, 6, 79, 1.0);
+  background-color: rgba(135, 219, 245, 1.0);
+  background-image:
+    linear-gradient(-90deg, rgba(255, 255, 255, 0.00) 0%, rgba(255, 255, 255, 0.75) 100%);
+  box-shadow: 3px 5px 10px 2px rgba(6, 79, 6, 0.5);
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+div.main_header_logo {
+  font-size: 60px;
+  vertical-align: bottom;
+  margin: 0px 20px;
+}
+
+span.main_header_logo_subtitle {
+  font-size: 18px;
+}
+
+div.main_header_account {}
+
+div.main_header_account img {
+  height: 80px;
+  width: auto;
+  border-radius: 99999px;
+  margin: 0px 10px;
+  box-shadow: 3px 3px 5px 1px rgba(6, 6, 79, 0.25);
+}
+
+/************************/
+/******** footer ********/
+/************************/
+
+div.main_footer {
+  font-size: 10px;
+  text-align: center;
+}
+
+/************************/
+/******** main ********/
+/************************/
+
+div.main_margin {
+  margin: 30px calc(5% + 30px);
+}
+
+div.main_container {
+  border-radius: 30px;
+  background-color: #ffffff;
+  margin: auto;
+  padding: 20px 40px;
+  box-shadow: 3px 5px 10px 2px rgba(6, 79, 6, 0.5);
+  max-width: 700px;
+  min-width: 240px;
+  overflow: hidden;
+}
+
+/************************/
+/******** hr ********/
+/************************/
+
+hr {
+  border-top: 10px dotted white;
+  /*border-top: 10px dotted rgba(135, 219, 245, 1.0);*/
+  /*border-top: 10px dotted     rgba(104, 222, 98, 1.0);*/
+  border-right: none;
+  border-bottom: none;
+  border-left: none;
+  margin: 30px 0 20px 0;
+}
+
+/************************/
+/******** 読み方追加 テキストボックス ********/
+/************************/
+
+div.new_yomikata {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  width: 90%;
+  height: 60px;
+  margin-left: auto;
+  /*margin-right: auto;*/
+}
+
+div.new_yomikata input[type=text] {
+  margin: 5px;
+  border: 1px solid rgba(6, 79, 6, 1);
+  border-radius: 10px;
+  flex: 1 1 auto;
+  width: 1px;
+  min-width: 30px;
+  padding: 5px 15px;
+  outline: none;
+}
+
+div.new_yomikata button {
+  display: inline-block;
+  font-weight: bold;
+  color: rgba(6, 79, 6, 1);
+  background-color: rgba(104, 222, 98, 1);
+  margin: 5px;
+  padding: 0 20px;
+  border: 1px solid rgba(6, 79, 6, 1);
+  border-radius: 10px;
+  cursor: pointer;
+  outline: none;
+}
+
+div.new_yomikata input[type=text]:focus {
+  box-shadow: 0 0 5px 2px rgba(104, 222, 98, 1);
+}
+
+div.new_yomikata button:focus {
+  box-shadow: 0 0 5px 2px rgba(104, 222, 98, 1);
+}
+
+/************************/
+/******** 選択肢表示 ********/
+/************************/
+
+label.choices {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 10px 0px;
+  margin: 15px 0px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, .04);
+  background-image: linear-gradient(90deg, var(--var-color-barchart2) 0%, var(--var-color-barchart1) var(--chart-percentage), transparent var(--chart-percentage), transparent 100%);
+}
+
+label.choices:hover {
+  background-color: rgba(104, 222, 98, 0.3);
+  transition: all 0.15s linear;
+}
+
+body {
+  --var-color-barchart1: rgba(135, 219, 245, 0.75);
+  --var-color-barchart2: rgba(135, 219, 245, 0.15);
+}
+
+input[type="radio"] {
+  /* display: none; */
+  width: 0;
+  height: 0;
+  position: relative;
+  top: -9999px;
+}
+
+input[type="radio"]+span {
+  position: relative;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 24px;
+  height: 24px;
+  border: solid 2px transparent;
+  background: rgba(0, 0, 0, .15);
+  border-radius: 50%;
+  transition: all 0.15s linear;
+  flex: 0 0 auto;
+}
+
+input[type="radio"]:checked+span {
+  background: rgba(104, 222, 98, 1);
+  box-shadow: 0px 0px 10px 2px rgba(104, 222, 98, 0.8);
+}
+
+input[type="radio"]+span:after {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 24px;
+  height: 24px;
+
+  content: url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 6 6"><title>white_circle_2x2</title><g><g><path d="M 1 0 A 1 1 0 0 0 1 2 A 1 1 0 0 0 1 0" fill="white"/></g></g></svg>');
+  filter: drop-shadow(0px 0px 4px rgba(255, 255, 255, 0.8));
+  opacity: 0.0;
+  transition: all 0.15s linear;
+}
+
+input[type="radio"]:checked+span:after {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 24px;
+  height: 24px;
+
+  opacity: 1.0;
+}
+
+input[type="radio"]:focus+span:after {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 36px;
+  height: 36px;
+
+  opacity: 1.0;
+}
+
+span.choice_text {
+  margin: 0px 10px;
+  font-size: 20px;
+  font-weight: bold;
+  flex: 1 1 auto;
+}
+
+@media screen and (max-width: 599px) {
+  div.main_header_logo {
+    font-size: 50px;
+  }
+
+  span.main_header_logo_subtitle {
+    display: none;
+  }
+
+  h1 {
+    font-size: 60px;
+  }
+
+  div.main_margin {
+    margin-left: 30px;
+    margin-right: 30px;
+  }
+
+  div.main_container {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  h1 span.title {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+@media screen and (max-width: 449px) {
+  div.main_header_logo {
+    font-size: 40px;
+  }
+
+  span.main_header_logo_subtitle {
+    display: none;
+  }
+
+  h1 {
+    font-size: 48px;
+  }
+
+  div.main_margin {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  div.main_container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  h1 span.title {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+@media screen and (max-width: 359px) {
+  div.main_header_logo {
+    font-size: 30px;
+  }
+
+  span.main_header_logo_subtitle {
+    display: none;
+  }
+
+  h1 {
+    font-size: 48px;
+  }
+
+  div.main_margin {
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  div.main_container {
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 0px;
+  }
+
+  h1 span.title {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
