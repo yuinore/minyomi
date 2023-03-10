@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   # Defines the root path route ("/")
-  root "root#index"
+  root 'root#index'
 
   get 'auth/:provider/callback', to: 'sessions#create'
   get 'auth/failure', to: redirect('/')
