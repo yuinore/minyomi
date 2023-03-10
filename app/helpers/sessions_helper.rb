@@ -8,10 +8,14 @@ module SessionsHelper
   end
 
   def login(user)
+    # renew session_key to avoid session fixation attack
+    session.delete(:session_key)
+
     session[:user_id] = user.id
   end
 
   def logout
+    session.delete(:session_key)
     session.delete(:user_id)
     @current_user = nil
   end
