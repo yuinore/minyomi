@@ -19,3 +19,6 @@ Style/TrailingCommaInHashLiteral:
 
 Style/EmptyMethod:
   EnforcedStyle: expanded
+
+Rails/HelperInstanceVariable:
+  Enabled: false
