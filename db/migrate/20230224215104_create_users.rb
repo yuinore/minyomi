@@ -8,6 +8,9 @@ class CreateUsers < ActiveRecord::Migration[7.0]
       t.string :image
 
       t.timestamps
+
+      t.index :created_at
+      t.index :updated_at
     end
   end
 end
