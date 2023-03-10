@@ -4,9 +4,14 @@ class CreateVotes < ActiveRecord::Migration[7.0]
       t.references :choice, null: false, foreign_key: true
       t.boolean :authenticated, null: false
       t.references :user, foreign_key: true
-      t.text :session
+      t.string :session
 
       t.timestamps
+
+      t.index [:user_id, :choice_id], unique: true
+      t.index [:session, :choice_id], unique: true
+      t.index :created_at
+      t.index :updated_at
     end
   end
 end
