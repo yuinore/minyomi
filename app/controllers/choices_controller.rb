@@ -29,7 +29,7 @@ class ChoicesController < ApplicationController
     )
 
     if authenticated
-      # TODO:
+      # TODO: 実装
     else
       Vote.create!(choice:, authenticated:, user: nil, session: session[:session_key])
     end

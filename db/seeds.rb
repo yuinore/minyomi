@@ -20,11 +20,11 @@ Choice.create!(name: 'コンストイーエクスピーアール', count: 21, au
 Choice.create!(name: 'コンストエクスプレ', count: 9, auth_count: 7, word: word_constexpr)
 Choice.create!(name: 'コンストエクスプル', count: 1, auth_count: 0, word: word_constexpr)
 
-choice_1 = Choice.create!(name: 'リナックス', count: 3, auth_count: 0, word: word_linux)
-choice_2 = Choice.create!(name: 'リヌックス', count: 2, auth_count: 0, word: word_linux)
+choice1 = Choice.create!(name: 'リナックス', count: 3, auth_count: 0, word: word_linux)
+choice2 = Choice.create!(name: 'リヌックス', count: 2, auth_count: 0, word: word_linux)
 
-Vote.create!(choice: choice_1, authenticated: false, user: nil, session: 'XXXX0001')
-Vote.create!(choice: choice_1, authenticated: false, user: nil, session: 'XXXX0002')
-Vote.create!(choice: choice_1, authenticated: false, user: nil, session: 'XXXX0003')
-Vote.create!(choice: choice_2, authenticated: false, user: nil, session: 'XXXX0004')
-Vote.create!(choice: choice_2, authenticated: false, user: nil, session: 'XXXX0005')
+Vote.create!(choice: choice1, authenticated: false, user: nil, session: 'XXXX0001')
+Vote.create!(choice: choice1, authenticated: false, user: nil, session: 'XXXX0002')
+Vote.create!(choice: choice1, authenticated: false, user: nil, session: 'XXXX0003')
+Vote.create!(choice: choice2, authenticated: false, user: nil, session: 'XXXX0004')
+Vote.create!(choice: choice2, authenticated: false, user: nil, session: 'XXXX0005')
