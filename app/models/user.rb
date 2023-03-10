@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   class << self
     def find_or_create_from_auth_hash(auth_hash)
