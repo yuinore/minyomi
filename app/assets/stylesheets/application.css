@@ -221,7 +221,7 @@ input[type="radio"] {
   width: 0;
   height: 0;
   position: relative;
-  top: -9999px;
+  left: -9999px;
 }
 
 input[type="radio"]+span {
