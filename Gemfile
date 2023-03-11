@@ -70,9 +70,9 @@ group :development do
   gem 'rubocop-rails', require: false
 end
 
+gem 'activerecord-import'
 gem 'dotenv-rails'
 gem 'html2slim'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 gem 'slim-rails'
-gem 'activerecord-import'

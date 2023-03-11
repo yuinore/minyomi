@@ -5,7 +5,7 @@ class Choice < ApplicationRecord
   has_many :votes, dependent: :destroy
 
   def self.create_percentage(choices)
-    @total_count = choices.map { |choice| choice.count + choice.auth_count }.sum
+    @total_count = choices.sum { |choice| choice.count + choice.auth_count }
 
     choices.map do |choice|
       choice_count = (choice&.count || 0) + (choice&.auth_count || 0)

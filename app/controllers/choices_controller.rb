@@ -26,7 +26,7 @@ class ChoicesController < ApplicationController
         word: @word,
         name: params[:new_choice],
         count: 0, # authenticated ? 0 : 1,
-        auth_count: 0, # authenticated ? 1 : 0,
+        auth_count: 0 # authenticated ? 1 : 0,
       )
 
       if authenticated

@@ -7,9 +7,8 @@ class VotesController < ApplicationController
 
   def create
     choice_id_string = params[:choice_id].split('_')[1]
-    if choice_id_string == 'others'
-      return render json: { choices: [] }
-    end
+    return render json: { choices: [] } if choice_id_string == 'others'
+
     choice_id_integer = choice_id_string.to_i
 
     word = Word.find(params[:word_id].to_i)
