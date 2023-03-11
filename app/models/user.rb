@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  has_many :votes
+  has_many :votes, dependent: :destroy
 
   def save_choice(choice, word = nil)
     word ||= choice.word

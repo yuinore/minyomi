@@ -17,7 +17,7 @@ class VotesController < ApplicationController
     # ロックは必ず Word モデルで行うことにする
     word.with_lock do
       choice = word.choices.detect { |c| c.id == choice_id_integer }
-      return if word.id != choice.word_id
+      raise StandardError if word.id != choice.word_id
 
       current_user.save_choice(choice, word)
       # vote = Vote.find_or_initialize_by(user: current_user, choice: choice.word.choices.pluck(:id))
