@@ -22,3 +22,12 @@ Style/EmptyMethod:
 
 Rails/HelperInstanceVariable:
   Enabled: false
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false

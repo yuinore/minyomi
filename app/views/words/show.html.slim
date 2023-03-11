@@ -12,7 +12,8 @@
     - [*@word.choices, nil].each do |choice|
       .choices
         - id = choice&.id || "others"
-        label.choices style="--chart-percentage: #{(choice&.count || 0) * 4.0}%;"
+        - choice_count = (choice&.count || 0) + (choice&.auth_count || 0)
+        label.choices style="--chart-percentage: #{(choice_count * 100.0 / @total_count).round(3)}%;"
           input name="choices" id="choice_#{id}" type="radio" value="choice_#{id}"
           span.check_dummy
           span.check_dummy_focus
@@ -22,6 +23,7 @@
     .new_yomikata
       input type="hidden" name="word_id" value="#{@word.id}"
       input type="hidden" name="word_slug" value="#{@word.slug}"
+      input type="hidden" name="confirmed" value="false"
       input name="new_choice" type="text" placeholder="読み方" onInput="void(value && (document.getElementById('choice_others').checked = true))"
       button type="submit"
         | 追加

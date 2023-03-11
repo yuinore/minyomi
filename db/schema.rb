@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_25_071754) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_05_201310) do
   create_table "choices", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.text "name"
     t.integer "count"
@@ -33,6 +33,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_25_071754) do
     t.index ["updated_at"], name: "index_users_on_updated_at"
   end
 
+  create_table "votes", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+    t.bigint "choice_id", null: false
+    t.boolean "authenticated", null: false
+    t.bigint "user_id"
+    t.string "session"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["choice_id"], name: "index_votes_on_choice_id"
+    t.index ["created_at"], name: "index_votes_on_created_at"
+    t.index ["session", "choice_id"], name: "index_votes_on_session_and_choice_id", unique: true
+    t.index ["updated_at"], name: "index_votes_on_updated_at"
+    t.index ["user_id", "choice_id"], name: "index_votes_on_user_id_and_choice_id", unique: true
+    t.index ["user_id"], name: "index_votes_on_user_id"
+  end
+
   create_table "words", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.text "name"
     t.string "slug"
@@ -45,4 +60,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_25_071754) do
   end
 
   add_foreign_key "choices", "words"
+  add_foreign_key "votes", "choices"
+  add_foreign_key "votes", "users"
 end

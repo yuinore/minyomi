@@ -38,3 +38,6 @@ html
         br
         | Copyright © 2023-2023 @yuinore Some Rights Reserved.
         br
+        - if ENV.fetch('RAILS_ENV') == 'development'
+          = "session_key: #{session[:session_key]}"
+          br

@@ -2,4 +2,5 @@
 
 class Choice < ApplicationRecord
   belongs_to :word
+  has_many :votes, dependent: :destroy
 end

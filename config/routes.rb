@@ -8,11 +8,12 @@ Rails.application.routes.draw do
   get 'auth/failure', to: redirect('/')
   get 'logout', to: 'sessions#destroy', as: 'logout'
 
-  resources :words, only: %i[index]
-  resources :choices, only: %i[index create]
-  resources :profile, only: %i[index]
+  resources :words, only: [:index]
+  resources :choices, only: [:index, :create]
+  resources :votes, only: [:index]
+  resources :profile, only: [:index]
 
   get 'i/:slug', to: 'words#show', as: 'word'
 
-  resources :sessions, only: %i[create destroy]
+  resources :sessions, only: [:create, :destroy]
 end
