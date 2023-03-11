@@ -10,6 +10,8 @@ html
     = csp_meta_tag
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
 
+    script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"
+
     link rel="preconnect" href="https://koruri.chillout.chat"
     link rel="stylesheet" href="https://koruri.chillout.chat/koruri.css"
 
@@ -27,7 +29,8 @@ html
       .main_header_account
         - if current_user
           a href="/profile"
-            = image_tag current_user.image
+            = image_tag current_user.image, id: 'profile-image-normal', onError: 'void(this.remove())', onLoad: 'void(document.querySelector("#profile-image-onerror").remove())'
+            = image_tag 'annonymous_icon.png', id: 'profile-image-onerror'
         - else
           = button_to "Sign in with Google", "/auth/google_oauth2",　method: :post, data: { turbo: false }
     .main_margin

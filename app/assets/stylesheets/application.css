@@ -221,7 +221,7 @@ input[type="radio"] {
   width: 0;
   height: 0;
   position: relative;
-  top: -9999px;
+  left: -9999px;
 }
 
 input[type="radio"]+span {
@@ -281,6 +281,10 @@ span.choice_text {
   font-size: 20px;
   font-weight: bold;
   flex: 1 1 auto;
+}
+
+span.percentage_text {
+  margin-right: 10px;
 }
 
 @media screen and (max-width: 599px) {
