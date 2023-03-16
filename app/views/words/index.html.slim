@@ -1,4 +1,4 @@
 h1 words
 - @words.each do |word|
-  = word.to_json
+  = word.to_json(include: :choices)
   br

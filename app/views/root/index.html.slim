@@ -1,1 +1,17 @@
 h1 Root#index
+
+= link_to "/words", words_path
+br
+= link_to "/choices", choices_path
+br
+= link_to "/votes", votes_path
+hr
+h2 最近追加された単語
+- Word.order(created_at: :DESC).limit(10).each do |word|
+  = link_to word.name, word_path(word.slug)
+  br
+
+h2 最近投票された単語
+- Vote.includes(:choice, choice: :word).order(updated_at: :DESC).limit(10).each do |vote|
+  = link_to vote.choice.word.name, word_path(vote.choice.word.slug)
+  br

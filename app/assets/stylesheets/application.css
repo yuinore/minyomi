@@ -203,12 +203,15 @@ label.choices {
   margin: 15px 0px;
   border-radius: 10px;
   background-color: rgba(0, 0, 0, .04);
-  background-image: linear-gradient(90deg, var(--var-color-barchart2) 0%, var(--var-color-barchart1) var(--chart-percentage), transparent var(--chart-percentage), transparent 100%);
+  background-image: linear-gradient(90deg, var(--var-color-barchart2) 0%, var(--var-color-barchart1) 99.999%, transparent 100%);
+  background-size: var(--chart-percentage) 100%;
+  background-repeat: no-repeat;
+
+  transition: all 0.20s cubic-bezier(.25, 0, .05, 1);
 }
 
 label.choices:hover {
   background-color: rgba(104, 222, 98, 0.3);
-  transition: all 0.15s linear;
 }
 
 body {
@@ -221,7 +224,7 @@ input[type="radio"] {
   width: 0;
   height: 0;
   position: relative;
-  top: -9999px;
+  left: -9999px;
 }
 
 input[type="radio"]+span {
@@ -281,6 +284,10 @@ span.choice_text {
   font-size: 20px;
   font-weight: bold;
   flex: 1 1 auto;
+}
+
+span.percentage_text {
+  margin-right: 10px;
 }
 
 @media screen and (max-width: 599px) {

@@ -8,22 +8,70 @@
     = @word.tags
     br
   br
-  form action=""
+  = form_with url: "/votes", method: :post do |form|
     - [*@word.choices, nil].each do |choice|
       .choices
         - id = choice&.id || "others"
         - choice_count = (choice&.count || 0) + (choice&.auth_count || 0)
-        label.choices style="--chart-percentage: #{(choice_count * 100.0 / @total_count).round(3)}%;"
-          input name="choices" id="choice_#{id}" type="radio" value="choice_#{id}"
+        label.choices onClick="void(handleClick(this, #{@word.id}))" style="--chart-percentage: #{choice ? @percentage[choice.id][:percentage] : "0%"};"
+          input[name="choices" id="choice_#{id}" type="radio" value="choice_#{id}"
+                checked=(id == @checked_choice_id)
+                ]
           span.check_dummy
           span.check_dummy_focus
           span.choice_text
             = choice&.name || "その他"
+          span.percentage_text
+            = choice ? @percentage[choice.id][:percentage] : ""
   = form_with url: "/choices", method: :post do |form|
     .new_yomikata
       input type="hidden" name="word_id" value="#{@word.id}"
       input type="hidden" name="word_slug" value="#{@word.slug}"
       input type="hidden" name="confirmed" value="false"
-      input name="new_choice" type="text" placeholder="読み方" onInput="void(value && (document.getElementById('choice_others').checked = true))"
+      input[name="new_choice" type="text" placeholder="読み方"
+            onInput="void(value && (document.getElementById('choice_others').checked = true))"]
       button type="submit"
         | 追加
+
+javascript:
+  'use strict';
+
+  let timerId = null;
+  let wordId = null;
+  let authenticityToken = null;
+  let choiceId = null;
+
+  function handleClick(element, argWordId) {
+    authenticityToken = element.parentNode.parentNode.querySelector('input[type="hidden"][name="authenticity_token"]').value;
+    choiceId = element.querySelector('input').id;
+    wordId = argWordId;
+
+    clearTimeout(timerId);
+    timerId = setTimeout(() => {
+      if (choiceId === "choice_others") {
+        return;
+      }
+      axios
+        .post('/votes', {word_id: wordId, choice_id: choiceId, authenticity_token: authenticityToken})
+        .then((res) => {
+          console.log(res.data);
+          res.data.choices.forEach((choice) => {
+            document.querySelector(`#choice_${choice.id}`).parentNode.style.setProperty('--chart-percentage', choice.percentage)
+            document.querySelector(`#choice_${choice.id}`).parentNode.querySelector('span.percentage_text').innerText = choice.percentage
+          });
+        });
+    }, 2000);
+  }
+
+  window.addEventListener("beforeunload", (event) => {
+    clearTimeout(timerId);
+    if (wordId !== null) {
+      // ページ離脱時のデータ送信には sendBeacon を使用する
+      const postData = new FormData();
+      postData.append('word_id', wordId);
+      postData.append('choice_id', choiceId);
+      postData.append('authenticity_token', authenticityToken);
+      navigator.sendBeacon('/votes', postData);
+    }
+    console.log('beforeunload!');
+  });
