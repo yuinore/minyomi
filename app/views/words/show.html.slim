@@ -34,19 +34,25 @@
         | 追加
 
 javascript:
-  let timerId = null;
+  'use strict';
 
-  function handleClick(element, word_id) {
-    const authenticity_token = element.parentNode.parentNode.querySelector('input[type="hidden"][name="authenticity_token"]').value;
-    const choice_id = element.querySelector('input').id;
+  let timerId = null;
+  let wordId = null;
+  let authenticityToken = null;
+  let choiceId = null;
+
+  function handleClick(element, argWordId) {
+    authenticityToken = element.parentNode.parentNode.querySelector('input[type="hidden"][name="authenticity_token"]').value;
+    choiceId = element.querySelector('input').id;
+    wordId = argWordId;
 
     clearTimeout(timerId);
     timerId = setTimeout(() => {
-      if (choice_id === "choice_others") {
+      if (choiceId === "choice_others") {
         return;
       }
       axios
-        .post('/votes', {word_id: word_id, choice_id: choice_id, authenticity_token: authenticity_token})
+        .post('/votes', {word_id: wordId, choice_id: choiceId, authenticity_token: authenticityToken})
         .then((res) => {
           console.log(res.data);
           res.data.choices.forEach((choice) => {
@@ -54,5 +60,18 @@ javascript:
             document.querySelector(`#choice_${choice.id}`).parentNode.querySelector('span.percentage_text').innerText = choice.percentage
           });
         });
-    }, 500);
+    }, 2000);
   }
+
+  window.addEventListener("beforeunload", (event) => {
+    clearTimeout(timerId);
+    if (wordId !== null) {
+      // ページ離脱時のデータ送信には sendBeacon を使用する
+      const postData = new FormData();
+      postData.append('word_id', wordId);
+      postData.append('choice_id', choiceId);
+      postData.append('authenticity_token', authenticityToken);
+      navigator.sendBeacon('/votes', postData);
+    }
+    console.log('beforeunload!');
+  });
