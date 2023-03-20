@@ -26,6 +26,10 @@ Rails/HelperInstanceVariable:
 Style/SymbolArray:
   EnforcedStyle: brackets
 
+# private 以下は一段下げる
+Style/IndentationConsistency:
+  EnforcedStyle: indented_internal_methods
+
 Metrics/AbcSize:
   Enabled: false
 
