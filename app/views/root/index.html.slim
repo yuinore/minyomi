@@ -5,7 +5,6 @@ hr
 
 | TODO: オープンβテスト版リリースまでにやりたいもの
 ul
-  li last_voted_at を追加
   li annotate導入
   li 単語追加機能
   li 単語追加時のバリデーション（アルファベットのみ、slugが重複しないもののみ）
@@ -44,6 +43,6 @@ h2 最近追加された単語
   br
 
 h2 最近投票された単語
-- Vote.includes(:choice, choice: :word).order(updated_at: :DESC).limit(10).each do |vote|
-  = link_to vote.choice.word.name, word_path(vote.choice.word.slug)
+- Word.order(last_voted_at: :DESC).limit(10).each do |word|
+  = link_to word.name, word_path(word.slug)
   br

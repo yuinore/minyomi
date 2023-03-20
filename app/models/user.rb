@@ -26,6 +26,9 @@ class User < ApplicationRecord
     vote.authenticated = true
     vote.save!
 
+    choice.word.last_voted_at = Time.zone.now
+    choice.word.save!
+
     nil
   end
 

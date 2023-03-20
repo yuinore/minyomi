@@ -18,7 +18,8 @@ class WordsController < ApplicationController
            else
              Vote.find_by(choice: @word.choices.pluck(:id), session: session[:session_key])
            end
-    @checked_choice_id = vote&.choice&.id
+    # vote.choice を DB に問い合わせないようにするため vote&.choice_id を使用する
+    @checked_choice_id = vote&.choice_id
 
     # votes まで取得したい場合は以下のようにする
     # @word = Word.includes(:choices, choices: :votes).find_by(slug: params[:slug])
