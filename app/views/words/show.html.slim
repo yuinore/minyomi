@@ -27,7 +27,7 @@
             = choice ? @percentage[choice.id][:percentage] : ""
   - if @can_add_new_choice
     - if current_user
-      = form_with url: "/choices", method: :post do |form|
+      = form_with url: "/choices", method: :post, html: { onSubmit: "void(checkDuplicate(this, event))" } do |form|
         .new_yomikata
           input type="hidden" name="word_id" value="#{@word.id}"
           input type="hidden" name="word_slug" value="#{@word.slug}"
@@ -101,9 +101,21 @@ javascript:
   let choiceId = null;
 
   function toKatakana(value) {
-    return value.replace(/[\uFF5E\u301C~-]/g, 'ー').replace(/[\u3041-\u3096]/g, function(match) {
+    return value
+      .replace(/[ \u3000\u200B\t\r\n]/g, '')
+      .replace(/[\uFF5E\u301C~-]/g, 'ー')
+      .replace(/[\u3041-\u3096]/g, function(match) {
         return String.fromCharCode(match.charCodeAt(0) + 0x60);
     });
+  }
+
+  function checkDuplicate(form, event) {
+    const choices_innerText = Array.from(document.querySelectorAll('span.choice_text')).map(x => x.innerText);
+    const newChoice = form.querySelector('input[name="new_choice"]').value;
+    if (choices_innerText.includes(newChoice)) {
+      event.preventDefault();
+      alert('選択肢が重複しています。');
+    }
   }
 
   function handleClick(element, argWordId) {

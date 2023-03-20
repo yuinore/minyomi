@@ -11,9 +11,10 @@ class ChoicesController < ApplicationController
     return render plain: '403', status: :forbidden if @word.slug != params[:word_slug]
 
     if params[:confirmed].nil? || params[:confirmed] != 'true'
-      if @word.choices.map(&:name).include?(params[:new_choice])
-        return render plain: 'エラー：選択肢がすでに存在しています。', status: :forbidden
-      end
+      # クライアントでバリデーションを行う
+      # if @word.choices.map(&:name).include?(params[:new_choice])
+      #   return render plain: 'エラー：選択肢がすでに存在しています。', status: :forbidden
+      # end
 
       return render 'new'
     end
