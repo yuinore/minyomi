@@ -23,12 +23,13 @@ html
   body
     .main_header
       .main_header_logo
-        | みんヨミ！
-        span.main_header_logo_subtitle
-          | ～みんなの読み方教えてよ！～
+        = link_to root_path
+          = image_tag 'logo.png', class: 'main_header_logo_img', alt: 'みんヨミ！ ～みんなの読み方教えてよ！～'
+      .main_header_notification
+        | （オープンβテスト実施中！）
       .main_header_account
         - if current_user
-          a href="/profile"
+          = link_to profile_index_path
             = image_tag current_user.image, id: 'profile-image-normal', onError: 'void(this.remove())', onLoad: 'void(document.querySelector("#profile-image-onerror").remove())'
             = image_tag 'annonymous_icon.png', id: 'profile-image-onerror'
         - else
