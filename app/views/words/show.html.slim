@@ -74,6 +74,23 @@
           td
             = real_auth_count[choice_id] || 0
     br
+    table border="1" align="center"
+      tr
+        th authenticated: false
+        th
+          = Vote.where(choice_id: @word.choices.pluck(:id), authenticated: false).count
+      tr
+        th authenticated: true
+        th
+          = Vote.where(choice_id: @word.choices.pluck(:id), authenticated: true).count
+      tr
+        th user: NULL
+        th
+          = Vote.where(choice_id: @word.choices.pluck(:id), user: nil).count
+      tr
+        th session: NULL
+        th
+          = Vote.where(choice_id: @word.choices.pluck(:id), session: nil).count
 
 javascript:
   'use strict';
