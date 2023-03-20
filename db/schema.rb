@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_05_201310) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_20_202558) do
   create_table "choices", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "name"
     t.integer "count"
@@ -55,7 +55,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_05_201310) do
     t.text "tags"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "last_voted_at", precision: nil
     t.index ["created_at"], name: "index_words_on_created_at"
+    t.index ["last_voted_at"], name: "index_words_on_last_voted_at"
     t.index ["name"], name: "index_words_on_name", unique: true
     t.index ["slug"], name: "index_words_on_slug", unique: true
     t.index ["updated_at"], name: "index_words_on_updated_at"
