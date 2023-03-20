@@ -16,10 +16,10 @@ class Vote < ApplicationRecord
 
     old_choice = vote.new_record? ? nil : choice.word.choices.detect { |c| c.id == vote.choice_id }
     if old_choice
-      old_choice.auth_count -= 1
+      old_choice.count -= 1
       old_choice.save!
     end
-    choice.auth_count += 1
+    choice.count += 1
     choice.save!
 
     vote.session = session_key
