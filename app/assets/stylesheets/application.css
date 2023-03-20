@@ -3,33 +3,52 @@
 /************************/
 
 body {
-  font-size: 20px;
+  font-size: 14px;
   font-family: 'Poppins', "Koruri", sans-serif;
   color: rgba(6, 79, 6, 1);
-  background-color: rgb(255, 255, 255);
+
+  /* 画面下1200px以降をきれいに表示するため白にする */
+  background-color: #FFFFFF;
+
   padding: 0;
   margin: 0;
 
+  --background-y-offset: 50px;
   background-image:
+    url("kuro_bg.png"),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.00) 0%, rgba(255, 255, 255, 0.80) 100%),
     linear-gradient(45deg, rgba(137, 233, 152, 0.5) 0%, rgba(137, 233, 152, 0.5) 100%),
     url("raindrop_background.svg"),
     url("raindrop_background.svg"),
     linear-gradient(45deg, rgba(137, 233, 152, 1) 0%, rgba(137, 233, 152, 1) 100%);
   background-position:
-    0 100px,
-    0 100px,
-    calc(200px * 1200 / 29900) calc(200px * 1200 / 29900 + 100px),
-    0 100px;
+    right 20px bottom 0,
+    left 0 bottom 0,
+    0 var(--background-y-offset),
+    0 var(--background-y-offset),
+    calc(200px * 1200 / 29900) calc(200px * 1200 / 29900 + var(--background-y-offset)),
+    0 var(--background-y-offset);
   background-size:
+    auto 400px,
+    auto 400px,
     100px 1200px,
     auto 1200px,
     auto 1200px,
     100px 1200px;
   background-repeat:
+    no-repeat,
+    no-repeat,
     repeat,
     repeat-x,
     repeat-x,
     repeat-x;
+  background-attachment:
+    fixed,
+    fixed,
+    scroll,
+    scroll,
+    scroll,
+    scroll;
 }
 
 h1 {
@@ -71,9 +90,7 @@ div.main_header {
   width: 100%;
   height: 100px;
   color: rgba(6, 6, 79, 1.0);
-  background-color: rgba(135, 219, 245, 1.0);
-  background-image:
-    linear-gradient(-90deg, rgba(255, 255, 255, 0.00) 0%, rgba(255, 255, 255, 0.75) 100%);
+
   box-shadow: 3px 5px 10px 2px rgba(6, 79, 6, 0.5);
   overflow: hidden;
 
@@ -81,25 +98,73 @@ div.main_header {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
+  /* background-color: rgba(135, 219, 245, 1.0);
+  background-image:
+    linear-gradient(-90deg, rgba(255, 255, 255, 0.00) 0%, rgba(255, 255, 255, 0.75) 100%),
+    linear-gradient(-90deg, rgba(135, 219, 245, 0.5) 0%, rgba(135, 219, 245, 0.5) 100%),
+    url('header_wave.svg');
+  background-repeat: repeat, repeat, repeat-x;
+  background-size: auto auto, auto auto, 400px 100px; */
+
+  background-color: rgba(135, 219, 245, 1);
+  background-image:
+    linear-gradient(-90deg, rgba(255, 255, 255, 0.00) 0%, rgba(255, 255, 255, 0.75) 100%),
+    linear-gradient(45deg, rgba(135, 219, 245, 0.5) 0%, rgba(135, 219, 245, 0.5) 100%),
+    url("raindrop_background.svg"),
+    url("raindrop_background.svg"),
+    linear-gradient(45deg, rgba(135, 219, 245, 1) 0%, rgba(135, 219, 245, 1) 100%);
+  background-position:
+    0 0,
+    0 0,
+    0 -500px,
+    calc(200px * 1200 / 29900) calc(200px * 1200 / 29900 - 500px),
+    0 0;
+  background-size:
+    auto auto,
+    100px 1200px,
+    auto 1200px,
+    auto 1200px,
+    100px 1200px;
+  background-repeat:
+    repeat,
+    repeat,
+    repeat-x,
+    repeat-x,
+    repeat-x;
 }
 
 div.main_header_logo {
-  font-size: 60px;
+  /* font-size: 60px;
   vertical-align: bottom;
-  margin: 0px 20px;
+  margin: 0px 20px; */
+}
+
+img.main_header_logo_img {
+  /* 外側のdivの高さをimgに合わせる */
+  /* https://engineering.dn-voice.info/prg-tips/htmlcss/childimg-parentdiv/ */
+  display: block;
+
+  height: 90px;
+  margin: 7px 0 3px 10px;
 }
 
 span.main_header_logo_subtitle {
-  font-size: 18px;
+  /* font-size: 18px; */
+}
+
+div.main_header_notification {
+  font-size: 10px;
 }
 
 div.main_header_account {}
 
 div.main_header_account img {
+  display: block;
   height: 80px;
   width: auto;
   border-radius: 99999px;
-  margin: 0px 10px;
+  margin: 10px 10px;
   box-shadow: 3px 3px 5px 1px rgba(6, 6, 79, 0.25);
 }
 
@@ -122,7 +187,7 @@ div.main_margin {
 
 div.main_container {
   border-radius: 30px;
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 1.00);
   margin: auto;
   padding: 20px 40px;
   box-shadow: 3px 5px 10px 2px rgba(6, 79, 6, 0.5);
@@ -292,11 +357,11 @@ span.percentage_text {
 
 @media screen and (max-width: 599px) {
   div.main_header_logo {
-    font-size: 50px;
+    /* font-size: 50px; */
   }
 
   span.main_header_logo_subtitle {
-    display: none;
+    /* display: none; */
   }
 
   h1 {
@@ -321,11 +386,11 @@ span.percentage_text {
 
 @media screen and (max-width: 449px) {
   div.main_header_logo {
-    font-size: 40px;
+    /* font-size: 40px; */
   }
 
   span.main_header_logo_subtitle {
-    display: none;
+    /* display: none; */
   }
 
   h1 {
@@ -350,11 +415,11 @@ span.percentage_text {
 
 @media screen and (max-width: 359px) {
   div.main_header_logo {
-    font-size: 30px;
+    /* font-size: 30px; */
   }
 
   span.main_header_logo_subtitle {
-    display: none;
+    /* display: none; */
   }
 
   h1 {
