@@ -10,7 +10,7 @@
   br
   = form_with url: "/votes", method: :post do |form|
     - choices = [*@sorted_choices]
-    - choices << nil if current_user
+    - choices << nil if current_user && @can_add_new_choice
     - choices.each do |choice|
       .choices
         - id = choice&.id || "others"
@@ -25,26 +25,29 @@
             = choice&.name || "その他"
           span.percentage_text
             = choice ? @percentage[choice.id][:percentage] : ""
-  - if current_user
-    = form_with url: "/choices", method: :post do |form|
-      .new_yomikata
-        input type="hidden" name="word_id" value="#{@word.id}"
-        input type="hidden" name="word_slug" value="#{@word.slug}"
-        input type="hidden" name="confirmed" value="false"
-        input[name="new_choice"
-              type="text"
-              placeholder="読み方（カタカナで入力）"
-              pattern="^[\u30A1-\u30FC]+$"
-              title="読み方はカタカナで入力してください。"
-              maxlength="100"
-              required="required"
-              onInput="void(value && (document.getElementById('choice_others').checked = true))"]
-        button type="submit"
-          | 追加
+  - if @can_add_new_choice
+    - if current_user
+      = form_with url: "/choices", method: :post do |form|
+        .new_yomikata
+          input type="hidden" name="word_id" value="#{@word.id}"
+          input type="hidden" name="word_slug" value="#{@word.slug}"
+          input type="hidden" name="confirmed" value="false"
+          input[name="new_choice"
+                type="text"
+                placeholder="読み方（カタカナで入力）"
+                pattern="^[\u30A1-\u30FC]+$"
+                title="読み方はカタカナで入力してください。"
+                maxlength="100"
+                required="required"
+                onInput="void(value && (document.getElementById('choice_others').checked = true))"]
+          button type="submit"
+            | 追加
+    - else
+      = link_to '#', onClick: "void(document.querySelector('#sign_in_with_google').click())"
+        | ログイン
+      | して読み方を追加！
   - else
-    = link_to '#', onClick: "void(document.querySelector('#sign_in_with_google').click())"
-      | ログイン
-    | して読み方を追加！
+    | 追加できる読み方の数が上限に達しました。
 
 javascript:
   'use strict';

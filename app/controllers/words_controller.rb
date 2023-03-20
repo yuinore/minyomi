@@ -24,5 +24,6 @@ class WordsController < ApplicationController
     # @word = Word.includes(:choices, choices: :votes).find_by(slug: params[:slug])
 
     @sorted_choices = @word.choices.sort_by { |c| [-@percentage[c.id][:total_choice_count], c.id] }
+    @can_add_new_choice = (@sorted_choices.size < Choice::MAX_CHOICES_COUNT)
   end
 end
