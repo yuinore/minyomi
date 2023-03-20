@@ -6,7 +6,8 @@ class Choice < ApplicationRecord
   belongs_to :word
   has_many :votes, -> { order(:id) }, dependent: :destroy, inverse_of: :choice
 
-  validates :name, format: { with: /\A[\u30A1-\u30FC]+\z/ }, length: { maximum: 100 }
+  # ダミーデータ対応のため一旦 on: :create を指定する。name を後から変更する機能が実装された場合はまた考える。
+  validates :name, format: { with: /\A[\u30A1-\u30FC]+\z/ }, length: { maximum: 100 }, on: :create
   validate :limit_choices_count, on: :create
 
   def self.create_percentage(choices)
