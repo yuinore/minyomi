@@ -49,6 +49,31 @@
   - else
     | 追加できる読み方の数が上限に達しました。
 
+  - if current_user&.admin?
+    h2 デバッグ情報
+    table border="1" align="center"
+      tr
+        th choice_id
+        th .count
+        th COUNT(*) WHERE auth=false
+        th .auth_count
+        th COUNT(*) WHERE auth=true
+      - real_count = Vote.where(choice_id: @word.choices.pluck(:id), authenticated: false).group(:choice_id).count
+      - real_auth_count = Vote.where(choice_id: @word.choices.pluck(:id), authenticated: true).group(:choice_id).count
+      - @word.choices.pluck(:id, :count, :auth_count).each do |choice_id, count, auth_count|
+        tr
+          td
+            = choice_id
+          td
+            = count
+          td
+            = real_count[choice_id] || 0
+          td
+            = auth_count
+          td
+            = real_auth_count[choice_id] || 0
+    br
+
 javascript:
   'use strict';
 

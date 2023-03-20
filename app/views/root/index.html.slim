@@ -25,17 +25,17 @@ ul
   li .jsの有無で「もしかして？」表示
 hr
 
-= link_to "/words", words_path
-= " 現在 #{Word.count} 項目！"
-br
-= link_to "/choices", choices_path
-= " 現在 #{Choice.count} 項目！"
-br
-= link_to "/votes", votes_path
-= " 現在 #{Vote.count} 項目！"
-- if current_user
+- if current_user&.admin?
+  = link_to "/words", words_path
+  = " 現在 #{Word.count} 項目！"
+  br
+  = link_to "/choices", choices_path
+  = " 現在 #{Choice.count} 項目！"
+  br
+  = link_to "/votes", votes_path
+  = " 現在 #{Vote.count} 項目！"
   = " ユーザーの投票 #{Vote.where(user: current_user).count} 項目！"
-hr
+  hr
 
 h2 最近追加された単語
 - Word.order(created_at: :DESC).limit(10).each do |word|
