@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema[7.0].define(version: 2023_03_05_201310) do
   create_table "choices", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
-    t.text "name"
+    t.string "name"
     t.integer "count"
     t.integer "auth_count"
     t.bigint "word_id", null: false
@@ -20,6 +20,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_05_201310) do
     t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_choices_on_created_at"
     t.index ["updated_at"], name: "index_choices_on_updated_at"
+    t.index ["word_id", "name"], name: "index_choices_on_word_id_and_name", unique: true
     t.index ["word_id"], name: "index_choices_on_word_id"
   end
 
@@ -49,12 +50,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_05_201310) do
   end
 
   create_table "words", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
-    t.text "name"
+    t.string "name"
     t.string "slug"
     t.text "tags"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_words_on_created_at"
+    t.index ["name"], name: "index_words_on_name", unique: true
     t.index ["slug"], name: "index_words_on_slug", unique: true
     t.index ["updated_at"], name: "index_words_on_updated_at"
   end
