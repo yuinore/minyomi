@@ -9,7 +9,9 @@
     br
   br
   = form_with url: "/votes", method: :post do |form|
-    - [*@word.choices, nil].each do |choice|
+    - choices = [*@word.choices]
+    - choices << nil if current_user
+    - choices.each do |choice|
       .choices
         - id = choice&.id || "others"
         - choice_count = (choice&.count || 0) + (choice&.auth_count || 0)
@@ -23,15 +25,20 @@
             = choice&.name || "その他"
           span.percentage_text
             = choice ? @percentage[choice.id][:percentage] : ""
-  = form_with url: "/choices", method: :post do |form|
-    .new_yomikata
-      input type="hidden" name="word_id" value="#{@word.id}"
-      input type="hidden" name="word_slug" value="#{@word.slug}"
-      input type="hidden" name="confirmed" value="false"
-      input[name="new_choice" type="text" placeholder="読み方"
-            onInput="void(value && (document.getElementById('choice_others').checked = true))"]
-      button type="submit"
-        | 追加
+  - if current_user
+    = form_with url: "/choices", method: :post do |form|
+      .new_yomikata
+        input type="hidden" name="word_id" value="#{@word.id}"
+        input type="hidden" name="word_slug" value="#{@word.slug}"
+        input type="hidden" name="confirmed" value="false"
+        input[name="new_choice" type="text" placeholder="読み方"
+              onInput="void(value && (document.getElementById('choice_others').checked = true))"]
+        button type="submit"
+          | 追加
+  - else
+    = link_to '#', onClick: "void(document.querySelector('#sign_in_with_google').click())"
+      | ログイン
+    | して読み方を追加！
 
 javascript:
   'use strict';

@@ -51,6 +51,16 @@ body {
     scroll;
 }
 
+a:hover {
+  color: rgba(6, 79, 6, 1);
+  background-color: rgba(6, 79, 6, 0.2);
+}
+
+a:link,
+a:visited {
+  color: rgba(6, 79, 6, 1);
+}
+
 h1 {
   font-size: 70px;
   text-align: center;
@@ -194,6 +204,7 @@ div.main_container {
   max-width: 700px;
   min-width: 240px;
   overflow: hidden;
+  text-align: center;
 }
 
 /************************/
@@ -262,6 +273,7 @@ div.new_yomikata button:focus {
 
 label.choices {
   cursor: pointer;
+  text-align: left;
   display: flex;
   align-items: center;
   padding: 10px 0px;

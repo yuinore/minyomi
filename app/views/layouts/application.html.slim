@@ -33,7 +33,7 @@ html
             = image_tag current_user.image, id: 'profile-image-normal', onError: 'void(this.remove())', onLoad: 'void(document.querySelector("#profile-image-onerror").remove())'
             = image_tag 'annonymous_icon.png', id: 'profile-image-onerror'
         - else
-          = button_to "Sign in with Google", "/auth/google_oauth2",　method: :post, data: { turbo: false }
+          = button_to "Sign in with Google", "/auth/google_oauth2",　method: :post, data: { turbo: false }, id: 'sign_in_with_google'
     .main_margin
       = yield
       hr
