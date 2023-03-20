@@ -38,3 +38,6 @@ Metrics/MethodLength:
 
 Metrics/CyclomaticComplexity:
   Enabled: false
+
+NumericLiterals:
+    MinDigits: 7
