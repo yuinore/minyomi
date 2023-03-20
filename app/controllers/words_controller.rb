@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class WordsController < ApplicationController
+  skip_before_action :check_logged_in, only: [:show]
+
   def index
     @words = Word.includes(:choices).all.to_a
   end
@@ -11,7 +13,11 @@ class WordsController < ApplicationController
 
     @percentage = Choice.create_percentage(@word.choices).index_by { |x| x[:id] }
 
-    vote = current_user.votes.find_by(choice: @word.choices.pluck(:id))
+    vote = if current_user
+             current_user.votes.find_by(choice: @word.choices.pluck(:id))
+           else
+             Vote.find_by(choice: @word.choices.pluck(:id), session: session[:session_key])
+           end
     @checked_choice_id = vote&.choice&.id
 
     # votes まで取得したい場合は以下のようにする
