@@ -4,7 +4,7 @@ class VotesController < ApplicationController
   skip_before_action :check_logged_in, only: [:create]
 
   def index
-    @votes = Vote.all.to_a
+    @votes = Vote.order(:id).to_a
   end
 
   def create
@@ -16,21 +16,16 @@ class VotesController < ApplicationController
     word = Word.find(params[:word_id].to_i)
     return if word.nil?
 
-    # ロックは必ず Word モデルで行うことにする
+    # ロックは必ず controller で行い、Word モデルに対して行うことにする
     word.with_lock do
       choice = word.choices.detect { |c| c.id == choice_id_integer }
       raise StandardError if word.id != choice.word_id
 
       if current_user
-        current_user.save_choice(choice, word)
+        current_user.save_choice(choice)
       else
-        Vote.save_annonymous_choice(choice, word, session[:session_key])
+        Vote.save_annonymous_choice(choice, session[:session_key])
       end
-      # vote = Vote.find_or_initialize_by(user: current_user, choice: choice.word.choices.pluck(:id))
-      # vote.choice = choice
-      # vote.authenticated = true
-      # vote.save!
-      # Vote.create(authenticated: true, user: current_user, choice: choice)
     end
 
     percentage = Choice.create_percentage(word.choices)

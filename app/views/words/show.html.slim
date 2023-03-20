@@ -9,7 +9,7 @@
     br
   br
   = form_with url: "/votes", method: :post do |form|
-    - choices = [*@word.choices]
+    - choices = [*@sorted_choices]
     - choices << nil if current_user
     - choices.each do |choice|
       .choices
@@ -31,7 +31,13 @@
         input type="hidden" name="word_id" value="#{@word.id}"
         input type="hidden" name="word_slug" value="#{@word.slug}"
         input type="hidden" name="confirmed" value="false"
-        input[name="new_choice" type="text" placeholder="読み方"
+        input[name="new_choice"
+              type="text"
+              placeholder="読み方（カタカナで入力）"
+              pattern="^[\u30A1-\u30FC]+$"
+              title="読み方はカタカナで入力してください。"
+              maxlength="100"
+              required="required"
               onInput="void(value && (document.getElementById('choice_others').checked = true))"]
         button type="submit"
           | 追加
@@ -55,6 +61,7 @@ javascript:
 
     clearTimeout(timerId);
     timerId = setTimeout(() => {
+      timerId = null;
       if (choiceId === "choice_others") {
         return;
       }
@@ -72,7 +79,7 @@ javascript:
 
   window.addEventListener("beforeunload", (event) => {
     clearTimeout(timerId);
-    if (wordId !== null) {
+    if (wordId !== null && timerId !== null) {
       // ページ離脱時のデータ送信には sendBeacon を使用する
       const postData = new FormData();
       postData.append('word_id', wordId);

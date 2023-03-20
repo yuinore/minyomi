@@ -4,7 +4,7 @@ class WordsController < ApplicationController
   skip_before_action :check_logged_in, only: [:show]
 
   def index
-    @words = Word.includes(:choices).all.to_a
+    @words = Word.includes(:choices).order(:id).to_a
   end
 
   def show
@@ -22,5 +22,7 @@ class WordsController < ApplicationController
 
     # votes まで取得したい場合は以下のようにする
     # @word = Word.includes(:choices, choices: :votes).find_by(slug: params[:slug])
+
+    @sorted_choices = @word.choices.sort_by { |c| [-@percentage[c.id][:total_choice_count], c.id] }
   end
 end
