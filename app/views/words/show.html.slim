@@ -39,6 +39,7 @@
                 title="読み方はカタカナで入力してください。"
                 maxlength="100"
                 required="required"
+                onChange="void(value && (value = toKatakana(value)))"
                 onInput="void(value && (document.getElementById('choice_others').checked = true))"]
           button type="submit"
             | 追加
@@ -81,6 +82,12 @@ javascript:
   let wordId = null;
   let authenticityToken = null;
   let choiceId = null;
+
+  function toKatakana(value) {
+    return value.replace(/[\uFF5E\u301C~-]/g, 'ー').replace(/[\u3041-\u3096]/g, function(match) {
+        return String.fromCharCode(match.charCodeAt(0) + 0x60);
+    });
+  }
 
   function handleClick(element, argWordId) {
     authenticityToken = element.parentNode.parentNode.querySelector('input[type="hidden"][name="authenticity_token"]').value;
