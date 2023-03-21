@@ -1,4 +1,5 @@
-= stylesheet_link_tag 'root'
+- content_for :stylesheets do
+  = stylesheet_link_tag 'root'
 
 h1.root_logo
   = image_tag 'logo.png', class: 'root_logo_img', alt: 'みんヨミ！ ～みんなの読み方教えてよ！～'
