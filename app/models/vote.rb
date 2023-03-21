@@ -1,5 +1,31 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: votes
+#
+#  id            :bigint           not null, primary key
+#  authenticated :boolean          not null
+#  session       :string(255)
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  choice_id     :bigint           not null
+#  user_id       :bigint
+#
+# Indexes
+#
+#  index_votes_on_choice_id              (choice_id)
+#  index_votes_on_created_at             (created_at)
+#  index_votes_on_session_and_choice_id  (session,choice_id) UNIQUE
+#  index_votes_on_updated_at             (updated_at)
+#  index_votes_on_user_id                (user_id)
+#  index_votes_on_user_id_and_choice_id  (user_id,choice_id) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (choice_id => choices.id)
+#  fk_rails_...  (user_id => users.id)
+#
 class Vote < ApplicationRecord
   belongs_to :choice
   belongs_to :user, optional: true
