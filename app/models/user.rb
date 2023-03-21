@@ -1,5 +1,21 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: users
+#
+#  id         :bigint           not null, primary key
+#  email      :string(255)
+#  image      :string(255)
+#  name       :string(255)
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+# Indexes
+#
+#  index_users_on_created_at  (created_at)
+#  index_users_on_updated_at  (updated_at)
+#
 class User < ApplicationRecord
   has_many :votes, -> { order(:id) }, dependent: :destroy, inverse_of: :user
 

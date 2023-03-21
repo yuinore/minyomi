@@ -1,5 +1,28 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: choices
+#
+#  id         :bigint           not null, primary key
+#  auth_count :integer
+#  count      :integer
+#  name       :string(255)
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  word_id    :bigint           not null
+#
+# Indexes
+#
+#  index_choices_on_created_at        (created_at)
+#  index_choices_on_updated_at        (updated_at)
+#  index_choices_on_word_id           (word_id)
+#  index_choices_on_word_id_and_name  (word_id,name) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (word_id => words.id)
+#
 class Choice < ApplicationRecord
   MAX_CHOICES_COUNT = 30
 
