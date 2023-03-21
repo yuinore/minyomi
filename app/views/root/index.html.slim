@@ -1,36 +1,45 @@
-h1 Root#index
+- content_for :stylesheets do
+  = stylesheet_link_tag 'root'
+
+h1.root_logo
+  = image_tag 'logo.png', class: 'root_logo_img', alt: 'みんヨミ！ ～みんなの読み方教えてよ！～'
 
 | なかなか読み方が定まらないことの多いIT用語、そんなIT用語を中心に、いろいろな単語の読み方をみんなに聞いていきましょう！
 hr
 
-| TODO:
+| TODO: オープンβテスト版リリースまでにやりたいもの
 ul
-  li 選択肢入力のバリデーション（カタカナのみorひらがなのみ、読み方が重複しないもののみ）
+  li annotate導入
   li 単語追加機能
   li 単語追加時のバリデーション（アルファベットのみ、slugが重複しないもののみ）
-  li 単語追加・選択肢追加をログインユーザーに限定する
+  li 単語追加をログインユーザーに限定する
+
+| ver1.0リリースまでに出来たらやりたいもの
+ul
+  li Sign in with Google ボタンの見た目をどうにかする
   li admin専用に単語削除機能、選択肢削除機能を追加
   li 広告表示
   li 個人設定で広告を非表示にできるようにする
   li session情報の保存先を確認する（当面はファイルでも問題ないが）
-  li session_key のデバッグ表示を隠す
-  li last_voted_at を追加
-  li ログイン時に直前のページに戻る
+  li リリースまでに session_key のデバッグ表示を隠す（develop環境のみ表示にする？）
+  li ログイン後に直前のページに戻る
   li リリースまでにMITライセンスにする
-  li 選択肢を30件までに制限
+  li 読み方表示を平仮名とカタカナで切り替えられるようにしたい（しないかも）
+  li .jsの有無で「もしかして？」表示
+  li ログを残す（荒らし対策）
 hr
 
-= link_to "/words", words_path
-= " 現在 #{Word.count} 項目！"
-br
-= link_to "/choices", choices_path
-= " 現在 #{Choice.count} 項目！"
-br
-= link_to "/votes", votes_path
-= " 現在 #{Vote.count} 項目！"
-- if current_user
+- if current_user&.admin?
+  = link_to "/words", words_path
+  = " 現在 #{Word.count} 項目！"
+  br
+  = link_to "/choices", choices_path
+  = " 現在 #{Choice.count} 項目！"
+  br
+  = link_to "/votes", votes_path
+  = " 現在 #{Vote.count} 項目！"
   = " ユーザーの投票 #{Vote.where(user: current_user).count} 項目！"
-hr
+  hr
 
 h2 最近追加された単語
 - Word.order(created_at: :DESC).limit(10).each do |word|
@@ -38,6 +47,6 @@ h2 最近追加された単語
   br
 
 h2 最近投票された単語
-- Vote.includes(:choice, choice: :word).order(updated_at: :DESC).limit(10).each do |vote|
-  = link_to vote.choice.word.name, word_path(vote.choice.word.slug)
+- Word.order(last_voted_at: :DESC).limit(10).each do |word|
+  = link_to word.name, word_path(word.slug)
   br

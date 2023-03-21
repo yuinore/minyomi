@@ -9,8 +9,8 @@
     br
   br
   = form_with url: "/votes", method: :post do |form|
-    - choices = [*@word.choices]
-    - choices << nil if current_user
+    - choices = [*@sorted_choices]
+    - choices << nil if current_user && @can_add_new_choice
     - choices.each do |choice|
       .choices
         - id = choice&.id || "others"
@@ -25,20 +25,72 @@
             = choice&.name || "その他"
           span.percentage_text
             = choice ? @percentage[choice.id][:percentage] : ""
-  - if current_user
-    = form_with url: "/choices", method: :post do |form|
-      .new_yomikata
-        input type="hidden" name="word_id" value="#{@word.id}"
-        input type="hidden" name="word_slug" value="#{@word.slug}"
-        input type="hidden" name="confirmed" value="false"
-        input[name="new_choice" type="text" placeholder="読み方"
-              onInput="void(value && (document.getElementById('choice_others').checked = true))"]
-        button type="submit"
-          | 追加
+  - if @can_add_new_choice
+    - if current_user
+      = form_with url: "/choices", method: :post, html: { onSubmit: "void(checkDuplicate(this, event))" } do |form|
+        .new_yomikata
+          input type="hidden" name="word_id" value="#{@word.id}"
+          input type="hidden" name="word_slug" value="#{@word.slug}"
+          input type="hidden" name="confirmed" value="false"
+          input[name="new_choice"
+                type="text"
+                placeholder="読み方（カタカナで入力）"
+                pattern="^[\u30A1-\u30FC]+$"
+                title="読み方はカタカナで入力してください。"
+                maxlength="100"
+                required="required"
+                onChange="void(value && (value = toKatakana(value)))"
+                onInput="void(value && (document.getElementById('choice_others').checked = true))"]
+          button type="submit"
+            | 追加
+    - else
+      = link_to '#', onClick: "void(document.querySelector('#sign_in_with_google').click())"
+        | ログイン
+      | して読み方を追加！
   - else
-    = link_to '#', onClick: "void(document.querySelector('#sign_in_with_google').click())"
-      | ログイン
-    | して読み方を追加！
+    | 追加できる読み方の数が上限に達しました。
+
+  - if current_user&.admin?
+    h2 デバッグ情報
+    table border="1" align="center"
+      tr
+        th choice_id
+        th .count
+        th COUNT(*) WHERE auth=false
+        th .auth_count
+        th COUNT(*) WHERE auth=true
+      - real_count = Vote.where(choice_id: @word.choices.pluck(:id), authenticated: false).group(:choice_id).count
+      - real_auth_count = Vote.where(choice_id: @word.choices.pluck(:id), authenticated: true).group(:choice_id).count
+      - @word.choices.pluck(:id, :count, :auth_count).each do |choice_id, count, auth_count|
+        tr
+          td
+            = choice_id
+          td
+            = count
+          td
+            = real_count[choice_id] || 0
+          td
+            = auth_count
+          td
+            = real_auth_count[choice_id] || 0
+    br
+    table border="1" align="center"
+      tr
+        th authenticated: false
+        th
+          = Vote.where(choice_id: @word.choices.pluck(:id), authenticated: false).count
+      tr
+        th authenticated: true
+        th
+          = Vote.where(choice_id: @word.choices.pluck(:id), authenticated: true).count
+      tr
+        th user: NULL
+        th
+          = Vote.where(choice_id: @word.choices.pluck(:id), user: nil).count
+      tr
+        th session: NULL
+        th
+          = Vote.where(choice_id: @word.choices.pluck(:id), session: nil).count
 
 javascript:
   'use strict';
@@ -48,6 +100,24 @@ javascript:
   let authenticityToken = null;
   let choiceId = null;
 
+  function toKatakana(value) {
+    return value
+      .replace(/[ \u3000\u200B\t\r\n]/g, '')
+      .replace(/[\uFF5E\u301C~-]/g, 'ー')
+      .replace(/[\u3041-\u3096]/g, function(match) {
+        return String.fromCharCode(match.charCodeAt(0) + 0x60);
+    });
+  }
+
+  function checkDuplicate(form, event) {
+    const choices_innerText = Array.from(document.querySelectorAll('span.choice_text')).map(x => x.innerText);
+    const newChoice = form.querySelector('input[name="new_choice"]').value;
+    if (choices_innerText.includes(newChoice)) {
+      event.preventDefault();
+      alert('選択肢が重複しています。');
+    }
+  }
+
   function handleClick(element, argWordId) {
     authenticityToken = element.parentNode.parentNode.querySelector('input[type="hidden"][name="authenticity_token"]').value;
     choiceId = element.querySelector('input').id;
@@ -55,6 +125,7 @@ javascript:
 
     clearTimeout(timerId);
     timerId = setTimeout(() => {
+      timerId = null;
       if (choiceId === "choice_others") {
         return;
       }
@@ -72,7 +143,7 @@ javascript:
 
   window.addEventListener("beforeunload", (event) => {
     clearTimeout(timerId);
-    if (wordId !== null) {
+    if (wordId !== null && timerId !== null) {
       // ページ離脱時のデータ送信には sendBeacon を使用する
       const postData = new FormData();
       postData.append('word_id', wordId);

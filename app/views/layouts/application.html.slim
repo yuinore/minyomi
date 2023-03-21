@@ -20,13 +20,15 @@ html
     link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"
 
     meta name="viewport" content="width=device-width,initial-scale=1"
+
+    = yield :stylesheets
   body
     .main_header
       .main_header_logo
         = link_to root_path
           = image_tag 'logo.png', class: 'main_header_logo_img', alt: 'みんヨミ！ ～みんなの読み方教えてよ！～'
       .main_header_notification
-        | （オープンβテスト実施中！）
+        | （オープンβテスト実施中！ 今後データの一斉削除を実施する可能性があります。）
       .main_header_account
         - if current_user
           = link_to profile_index_path
