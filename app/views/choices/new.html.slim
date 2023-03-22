@@ -1,0 +1,26 @@
+.main_container
+  h1
+    span.title
+      = @word.name
+  br
+    | 読み方を追加します。宜しいですか？
+
+  form action=""
+    .choices
+      - id = "others"
+      label.choices style="--chart-percentage: 100%;"
+        input name="choices" id="choice_#{id}" type="radio" value="choice_#{id}" checked="checked"
+        span.check_dummy
+        span.check_dummy_focus
+        span.choice_text
+          | 新しい読み方：
+          = params[:new_choice]
+
+  = form_with url: "/choices", method: :post do |form|
+    .new_yomikata
+      input type="hidden" name="word_id" value="#{params[:word_id]}"
+      input type="hidden" name="word_slug" value="#{params[:word_slug]}"
+      input type="hidden" name="new_choice" value="#{params[:new_choice]}"
+      input type="hidden" name="confirmed" value="true"
+      button type="submit"
+        | 追加

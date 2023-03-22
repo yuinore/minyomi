@@ -1,0 +1,60 @@
+- content_for :stylesheets do
+  = stylesheet_link_tag 'words_new'
+
+.main_container
+  h1
+    | 単語追加
+  = form_with url: "/words", method: :post, html: { onSubmit: "void(checkDuplicate(this, event))" } do |form|
+    - if @confirming
+      | 以下の単語を追加します。宜しいですか？
+      br
+      .new_word_confirm_container
+        span
+          | 単語：
+          .new_word_confirm_bold
+            = "#{params[:new_word]}"
+        br
+        span
+          | URL：
+          .new_word_confirm_bold
+            = "#{request.url}/i/#{@slug}".gsub(/\/+/, "\\0\u200B")
+        br
+        span
+          | タグ：
+          .new_word_confirm_bold
+            = "#{params[:tags]}"
+      .new_word
+        input type="hidden" name="confirmed" value="true"
+        input type="hidden" name="new_word" value="#{params[:new_word]}"
+        input type="hidden" name="tags" value="#{params[:tags]}"
+        button type="submit"
+          | 追加
+    - else
+      | 新しい単語（IT用語など）を追加します。
+      br
+      br
+      br
+      .new_word
+        input type="hidden" name="confirmed" value="false"
+        label
+          | 新しい単語
+          input[name="new_word"
+                type="text"
+                placeholder="www、org、Linux など（半角で入力）"
+                pattern="^[A-Za-z0-9., _-]+$"
+                title="読み方は半角英数字および半角空白、アンダースコア、ハイフンのみで入力してください。"
+                maxlength="100"
+                required="required"
+                onChange="void()"
+                onInput="void()"]
+        label
+          | タグ
+          input[name="tags"
+                type="text"
+                placeholder="#タグ1 #タグ2"
+                maxlength="100"
+                onChange="void()"
+                onInput="void()"]
+        button type="submit"
+          | 追加
+

@@ -2,10 +2,48 @@ doctype html
 html
   head
     title
-      | Minyomi
+      - unless @word.nil?
+        = "#{@word.name} | "
+      | みんヨミ！ ～みんなの読み方教えてよ！～
     meta[name="viewport" content="width=device-width,initial-scale=1"]
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
+
+    script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"
+
+    link rel="preconnect" href="https://koruri.chillout.chat"
+    link rel="stylesheet" href="https://koruri.chillout.chat/koruri.css"
+
+    link rel="preconnect" href="https://fonts.googleapis.com"
+    link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""
+    link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"
+
+    meta name="viewport" content="width=device-width,initial-scale=1"
+
+    = yield :stylesheets
   body
-    = yield
+    .main_header
+      .main_header_logo
+        = link_to root_path
+          = image_tag 'logo.png', class: 'main_header_logo_img', alt: 'みんヨミ！ ～みんなの読み方教えてよ！～'
+      .main_header_notification
+        | オープンβテスト実施中！ テスト中の期間、不具合などが発生した場合、データの一斉削除を実施する可能性があります。（なるべくないようにはしたい）
+      .main_header_account
+        - if current_user
+          = link_to profile_index_path
+            = image_tag current_user.image, id: 'profile-image-normal', onError: 'void(this.remove())', onLoad: 'void(document.querySelector("#profile-image-onerror").remove())'
+            = image_tag 'annonymous_icon.png', id: 'profile-image-onerror'
+        - else
+          = button_to "Sign in with Google", "/auth/google_oauth2",　method: :post, data: { turbo: false }, id: 'sign_in_with_google'
+    .main_margin
+      = yield
+      hr
+      .main_footer
+        | みんヨミ！ ～みんなの読み方教えてよ！～
+        br
+        | Copyright © 2023-2023 @yuinore Some Rights Reserved.
+        br
+        - if ENV.fetch('RAILS_ENV') == 'development'
+          = "session_key: #{session[:session_key]}"
+          br
