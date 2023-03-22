@@ -3,8 +3,11 @@
 /************************/
 
 body {
-  font-size: 14px;
+  font-size: 12px;
+  /* font-family: 'area-normal', 'kyrial-display-pro', 'Poppins', "Koruri", sans-serif; */
   font-family: 'Poppins', "Koruri", sans-serif;
+  font-weight: 400;
+  font-style: normal;
   color: rgba(6, 79, 6, 1);
 
   /* 画面下1200px以降をきれいに表示するため白にする */
@@ -79,6 +82,7 @@ h1 span.title {
   /*border-radius: 20px;*/
   display: inline;
   padding: 10px 40px;
+  /* padding: 30px 35px 10px 35px; */
   border: 7px dotted rgba(135, 219, 245, 1.0);
   border-left: none;
   border-right: none;
@@ -87,7 +91,7 @@ h1 span.title {
 }
 
 div.subtitle {
-  font-size: 15px;
+  font-size: 14px;
   text-align: center;
 }
 
@@ -358,7 +362,7 @@ input[type="radio"]:focus+span:after {
 
 span.choice_text {
   margin: 0px 10px;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
   flex: 1 1 auto;
 }
