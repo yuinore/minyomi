@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   get 'auth/failure', to: redirect('/')
   get 'logout', to: 'sessions#destroy', as: 'logout'
 
-  resources :words, only: [:index]
+  resources :words, only: [:index, :new, :create]
   resources :choices, only: [:index, :create]
   resources :votes, only: [:index, :create]
   resources :profile, only: [:index]
