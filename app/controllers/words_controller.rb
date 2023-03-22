@@ -27,4 +27,35 @@ class WordsController < ApplicationController
     @sorted_choices = @word.choices.sort_by { |c| [-@percentage[c.id][:total_choice_count], c.id] }
     @can_add_new_choice = (@sorted_choices.size < Choice::MAX_CHOICES_COUNT)
   end
+
+  def new
+    @confirming = false
+    @confirmed = false
+  end
+
+  def create
+    @slug = params[:new_word].downcase.tr(' ', '_').gsub(/[^a-zA-Z_-]+/, '')
+
+    if Word.where(slug: @slug).count != 0
+      # 単語が異なっていて slug だけ一致する場合のことはおいおい考える
+      return render plain: '単語がすでに存在している可能性があります。もう一度お試しください。', status: :forbidden
+    end
+
+    if params[:confirmed].nil? || params[:confirmed] != 'true'
+      @confirming = true
+      @confirmed = false
+      return render 'new'
+    end
+    @confirming = true
+    @confirmed = true
+
+    Word.create!(
+      name: params[:new_word],
+      slug: @slug,
+      tags: params[:tags]
+    )
+
+    # render json: params
+    redirect_to word_path(@slug)
+  end
 end

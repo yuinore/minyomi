@@ -4,29 +4,39 @@
 h1.root_logo
   = image_tag 'logo.png', class: 'root_logo_img', alt: 'みんヨミ！ ～みんなの読み方教えてよ！～'
 
-| なかなか読み方が定まらないことの多いIT用語、そんなIT用語を中心に、いろいろな単語の読み方をみんなに聞いていきましょう！
+| なかなか読み方が定まらないことの多いIT用語、そんなIT用語を中心に、いろいろな英単語の読み方に投票していきませんか？
 hr
 
 | TODO: オープンβテスト版リリースまでにやりたいもの
 ul
-  li annotate導入
-  li 単語追加機能
-  li 単語追加時のバリデーション（アルファベットのみ、slugが重複しないもののみ）
-  li 単語追加をログインユーザーに限定する
+  li 投票すると「○○に投票しました。」みたいなポップアップが出るようにする
 
-| ver1.0リリースまでに出来たらやりたいもの
+| ver1.0リリースまでにやりたいもの
 ul
+  li ログを残す（荒らし対策）
+  li 不要ファイル整理
+  li favicon設定
+  li ツイートボタン設定
+  li Twitter Card 設定
+  li Twitter Card の画像を動的に生成する
+  li 単語一覧表示画面を作る
+  li choices#index, votes#index 画面を塞ぐか、またはlimit()を付ける（重すぎるため）
+
+| 要検討
+ul
+  li votes のパーティション化
   li Sign in with Google ボタンの見た目をどうにかする
   li admin専用に単語削除機能、選択肢削除機能を追加
   li 広告表示
   li 個人設定で広告を非表示にできるようにする
-  li session情報の保存先を確認する（当面はファイルでも問題ないが）
   li リリースまでに session_key のデバッグ表示を隠す（develop環境のみ表示にする？）
   li ログイン後に直前のページに戻る
   li リリースまでにMITライセンスにする
   li 読み方表示を平仮名とカタカナで切り替えられるようにしたい（しないかも）
   li .jsの有無で「もしかして？」表示
-  li ログを残す（荒らし対策）
+  li Sler -> もしかして SIer?
+  li 英数字以外の単語を追加可能にする
+  li メンテナンスモード実装（読み取りのみ可）
 hr
 
 - if current_user&.admin?
@@ -50,3 +60,11 @@ h2 最近投票された単語
 - Word.order(last_voted_at: :DESC).limit(10).each do |word|
   = link_to word.name, word_path(word.slug)
   br
+
+h2 単語の追加
+- if current_user
+  = link_to "単語を追加！", new_word_path
+- else
+  = link_to '#', onClick: "void(document.querySelector('#sign_in_with_google').click())"
+    | ログイン
+  | して単語を追加！
