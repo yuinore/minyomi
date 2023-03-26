@@ -11,9 +11,9 @@ class VotesController < ApplicationController
 
   def create
     choice_id_string = params[:choice_id].split('_')[1]
-    return render json: { choices: [] } if choice_id_string == 'others'
-
     choice_id_integer = choice_id_string.to_i
+
+    return render plain: '403', status: :forbidden if choice_id_string != choice_id_integer.to_s
 
     word = Word.find(params[:word_id].to_i)
     return if word.nil?

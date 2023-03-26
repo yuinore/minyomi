@@ -1,3 +1,6 @@
+- content_for :stylesheets do
+  = stylesheet_link_tag 'words_show'
+
 .main_container
   h1
     span.title
@@ -9,12 +12,10 @@
     br
   br
   = form_with url: "/votes", method: :post do |form|
-    - choices = [*@sorted_choices]
-    - choices << nil if current_user && @can_add_new_choice
-    - choices.each do |choice|
+    - @sorted_choices.each do |choice|
       .choices
-        - id = choice&.id || "others"
-        - choice_count = (choice&.count || 0) + (choice&.auth_count || 0)
+        - id = choice.id
+        - choice_count = (choice.count || 0) + (choice.auth_count || 0)
         label.choices onClick="void(handleClick(this, #{@word.id}))" style="--chart-percentage: #{choice ? @percentage[choice.id][:percentage] : "0%"};"
           input[name="choices" id="choice_#{id}" type="radio" value="choice_#{id}"
                 checked=(id == @checked_choice_id)
@@ -22,11 +23,15 @@
           span.check_dummy
           span.check_dummy_focus
           span.choice_text
-            = choice&.name || "その他"
+            = choice.name
           span.percentage_text
-            = choice ? @percentage[choice.id][:percentage] : ""
+            = @percentage[choice.id][:percentage]
   - if @can_add_new_choice
     - if current_user
+      .new_yomikata_label
+        - if @sorted_choices.size >= 1
+          | または
+        | 新しい読み方を追加：
       = form_with url: "/choices", method: :post, html: { onSubmit: "void(checkDuplicate(this, event))" } do |form|
         .new_yomikata
           input type="hidden" name="word_id" value="#{@word.id}"
@@ -40,7 +45,7 @@
                 maxlength="100"
                 required="required"
                 onChange="void(value && (value = toKatakana(value)))"
-                onInput="void(value && (document.getElementById('choice_others').checked = true))"]
+                onInput="void(0)"]
           button type="submit"
             | 追加
     - else
@@ -127,9 +132,6 @@ javascript:
     clearTimeout(timerId);
     timerId = setTimeout(() => {
       timerId = null;
-      if (choiceId === "choice_others") {
-        return;
-      }
       axios
         .post('/votes', {word_id: wordId, choice_id: choiceId, authenticity_token: authenticityToken})
         .then((res) => {
