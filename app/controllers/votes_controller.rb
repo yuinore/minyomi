@@ -4,7 +4,9 @@ class VotesController < ApplicationController
   skip_before_action :check_logged_in, only: [:create]
 
   def index
-    @votes = Vote.order(:id).to_a
+    return render plain: '403', status: :forbidden unless current_user&.admin?
+
+    @votes = Vote.order(:id).limit(10000).to_a
   end
 
   def create

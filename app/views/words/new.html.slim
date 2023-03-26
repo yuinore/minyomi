@@ -4,7 +4,7 @@
 .main_container
   h1
     | 単語追加
-  = form_with url: "/words", method: :post, html: { onSubmit: "void(checkDuplicate(this, event))" } do |form|
+  = form_with url: "/words", method: :post do |form|
     - if @confirming
       | 以下の単語を追加します。宜しいですか？
       br
@@ -45,16 +45,29 @@
                 title="読み方は半角英数字および半角空白、アンダースコア、ハイフンのみで入力してください。"
                 maxlength="100"
                 required="required"
-                onChange="void()"
-                onInput="void()"]
+                onChange="void(0)"
+                onInput="void(0)"]
         label
-          | タグ
+          | タグ（今はまだ後から変更できません）
           input[name="tags"
                 type="text"
                 placeholder="#タグ1 #タグ2"
+                pattern="^[A-Za-z0-9_ぁ-んァ-ヶー一-龠 #]+$"
                 maxlength="100"
-                onChange="void()"
-                onInput="void()"]
+                onChange="void(value && (value = formatTags(value)))"
+                title="タグは半角英数字、全角カタカナ、ひらがな、漢字、アンダースコアのみで入力してください。"
+                onInput="void(0)"]
         button type="submit"
           | 追加
 
+javascript:
+  function formatTags(value) {
+    return Array.from(value
+      .replace(/[#＃]/g, ' ')
+      .replace(/[ \u3000\u200B\t\r\n]+/g, ' ')
+      .split(' ')
+      )
+      .filter((t) => t)
+      .map((t) => `#${t}`)
+      .join(' ');
+  }

@@ -2,7 +2,10 @@
 
 class ChoicesController < ApplicationController
   def index
-    @choices = Choice.includes(:votes).order(:id).to_a
+    return render plain: '403', status: :forbidden unless current_user&.admin?
+
+    # @choices = Choice.includes(:votes).order(:id).limit(1000).to_a
+    @choices = Choice.order(:id).limit(10000).to_a
   end
 
   def create

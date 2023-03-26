@@ -1,4 +1,8 @@
-h1 words
-- @words.each do |word|
-  = word.to_json(include: :choices)
-  br
+.main_container
+  h1 単語一覧
+  - @words_index.each do |key, values|
+    h3
+      = key.upcase
+    - values.each do |word, slug|
+      = link_to word, word_path(slug)
+      br

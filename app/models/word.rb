@@ -25,5 +25,5 @@ class Word < ApplicationRecord
 
   # 許容する文字種は要検討
   validates :name, format: { with: /\A[A-Za-z0-9., _-]+\z/ }, length: { maximum: 100 }
-  validates :tags, length: { maximum: 100 }
+  validates :tags, format: { with: /\A(|(#[A-Za-z0-9_ぁ-んァ-ヶー一-龠]+)( #[A-Za-z0-9_ぁ-んァ-ヶー一-龠]+)*)\z/ }, length: { maximum: 100 }
 end
