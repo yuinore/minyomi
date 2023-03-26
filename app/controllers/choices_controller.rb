@@ -41,6 +41,6 @@ class ChoicesController < ApplicationController
       end
     end
 
-    redirect_to word_path(@word.slug)
+    redirect_to word_path(@word.slug), notice: '新しい読み方を追加しました。'
   end
 end

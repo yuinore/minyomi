@@ -56,6 +56,6 @@ class WordsController < ApplicationController
     )
 
     # render json: params
-    redirect_to word_path(@slug)
+    redirect_to word_path(@slug), notice: '単語を追加しました。'
   end
 end

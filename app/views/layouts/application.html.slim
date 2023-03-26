@@ -9,7 +9,11 @@ html
     = csp_meta_tag
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
 
+    /! libraries
     script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"
+    script src="https://code.jquery.com/jquery-3.6.4.min.js"
+    script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+    link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"
 
     /! fonts
     link rel="preconnect" href="https://koruri.chillout.chat"
@@ -69,3 +73,7 @@ html
         - if ENV.fetch('RAILS_ENV') == 'development'
           = "session_key: #{session[:session_key]}"
           br
+
+- if notice
+  javascript:
+    toastr.success("#{notice}");

@@ -114,7 +114,7 @@ javascript:
     const newChoice = form.querySelector('input[name="new_choice"]').value;
     if (choices_innerText.includes(newChoice)) {
       event.preventDefault();
-      alert('選択肢が重複しています。');
+      toastr.error('選択肢が重複しています。');
     }
   }
 
@@ -122,6 +122,7 @@ javascript:
     authenticityToken = element.parentNode.parentNode.querySelector('input[type="hidden"][name="authenticity_token"]').value;
     choiceId = element.querySelector('input').id;
     wordId = argWordId;
+    const choiceName = element.querySelector('span.choice_text').innerText;
 
     clearTimeout(timerId);
     timerId = setTimeout(() => {
@@ -137,6 +138,8 @@ javascript:
             document.querySelector(`#choice_${choice.id}`).parentNode.style.setProperty('--chart-percentage', choice.percentage)
             document.querySelector(`#choice_${choice.id}`).parentNode.querySelector('span.percentage_text').innerText = choice.percentage
           });
+          const notifyMsg = `「${choiceName}」に投票しました。`;
+          toastr.success(notifyMsg);
         });
     }, 2000);
   }
