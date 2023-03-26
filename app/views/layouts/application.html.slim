@@ -1,10 +1,9 @@
 doctype html
+- title = "#{@word.nil? ? "" : "#{@word.name} | "}みんヨミ！ ～みんなの読み方教えてよ！～"
 html
   head
     title
-      - unless @word.nil?
-        = "#{@word.name} | "
-      | みんヨミ！ ～みんなの読み方教えてよ！～
+      = title
     meta[name="viewport" content="width=device-width,initial-scale=1"]
     = csrf_meta_tags
     = csp_meta_tag
@@ -40,6 +39,14 @@ html
       = yield
       hr
       .main_footer
+        div
+          a[href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+            class="twitter-share-button"
+            data-text="#{title}"
+            data-show-count="false"]
+            Tweet
+          | <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        br
         | みんヨミ！ ～みんなの読み方教えてよ！～
         br
         | Copyright © 2023-2023 @yuinore Some Rights Reserved.
