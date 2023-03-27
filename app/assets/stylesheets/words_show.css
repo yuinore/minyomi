@@ -1,3 +1,25 @@
+/************************/
+/******** 読み方追加 テキストボックス ********/
+/************************/
+
+div.new_yomikata {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 5px;
+  align-items: center;
+  padding: 5px 0;
+}
+
+div.new_yomikata input[type=text] {
+  flex: 1 1 auto;
+  width: 500%;
+}
+
+div.new_yomikata button {
+  flex: 1 1 auto;
+}
+
 div.new_yomikata_label {
   text-align: left;
 }

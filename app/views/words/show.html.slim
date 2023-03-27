@@ -46,7 +46,7 @@
                 required="required"
                 onChange="void(value && (value = toKatakana(value)))"
                 onInput="void(0)"]
-          button type="submit"
+          button.button_common type="submit"
             | 追加
     - else
       = link_to '#', onClick: "void(document.querySelector('#sign_in_with_google').click())"

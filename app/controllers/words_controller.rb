@@ -38,7 +38,7 @@ class WordsController < ApplicationController
 
     if Word.where(slug: @slug).count != 0
       # 単語が異なっていて slug だけ一致する場合のことはおいおい考える
-      return render plain: '単語がすでに存在している可能性があります。もう一度お試しください。', status: :forbidden
+      return redirect_to new_word_path, alert: "単語「#{params[:new_word]}」はすでに存在している可能性があります。もう一度お試しください。"
     end
 
     if params[:confirmed].nil? || params[:confirmed] != 'true'

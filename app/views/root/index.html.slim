@@ -16,7 +16,7 @@
   br
   - if current_user
     = link_to new_word_path, class: 'new_word_link' do
-      button.new_word_button type="submit"
+      button.button_common type="submit"
         | 単語を追加する
   - else
     = link_to '#', onClick: "void(document.querySelector('#sign_in_with_google').click())"

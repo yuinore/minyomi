@@ -7,28 +7,8 @@ img.root_logo_img {
   width: 6em;
 }
 
-button.new_word_button {
-  display: block;
-  font-weight: bold;
-  color: rgba(6, 79, 6, 1);
-  background-color: rgba(104, 222, 98, 1);
-  /* margin: 5px; */
-  padding: 0 20px;
-  border: 1px solid rgba(6, 79, 6, 1);
-  border-radius: 10px;
-  cursor: pointer;
-  outline: none;
-  height: 40px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
 a.new_word_link {
   text-decoration: none;
-}
-
-button.new_word_button:focus {
-  box-shadow: 0 0 5px 2px rgba(104, 222, 98, 1);
 }
 
 .main_container hr {

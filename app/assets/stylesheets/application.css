@@ -40,7 +40,7 @@ body {
     100px 1200px;
   background-repeat:
     no-repeat,
-    no-repeat,
+    repeat-x, /* for iOS? */
     repeat,
     repeat-x,
     repeat-x,
@@ -223,52 +223,6 @@ hr {
   border-bottom: none;
   border-left: none;
   margin: 30px 0 20px 0;
-}
-
-/************************/
-/******** 読み方追加 テキストボックス ********/
-/************************/
-
-div.new_yomikata {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: stretch;
-  width: 90%;
-  height: 60px;
-  margin-left: auto;
-  /*margin-right: auto;*/
-}
-
-div.new_yomikata input[type=text] {
-  margin: 5px;
-  border: 1px solid rgba(6, 79, 6, 1);
-  border-radius: 10px;
-  flex: 1 1 auto;
-  width: 1px;
-  min-width: 30px;
-  padding: 5px 15px;
-  outline: none;
-}
-
-div.new_yomikata button {
-  display: inline-block;
-  font-weight: bold;
-  color: rgba(6, 79, 6, 1);
-  background-color: rgba(104, 222, 98, 1);
-  margin: 5px;
-  padding: 0 20px;
-  border: 1px solid rgba(6, 79, 6, 1);
-  border-radius: 10px;
-  cursor: pointer;
-  outline: none;
-}
-
-div.new_yomikata input[type=text]:focus {
-  box-shadow: 0 0 5px 2px rgba(104, 222, 98, 1);
-}
-
-div.new_yomikata button:focus {
-  box-shadow: 0 0 5px 2px rgba(104, 222, 98, 1);
 }
 
 /************************/
@@ -459,4 +413,56 @@ span.percentage_text {
     padding-left: 10px;
     padding-right: 10px;
   }
+}
+
+/************************/
+/******** input (共通) ********/
+/************************/
+
+input[type=text] {
+  display: block;
+  margin: 5px 0;
+  border: 1px solid rgba(6, 79, 6, 1);
+  border-radius: 10px;
+  width: 100%;
+  height: 45px;
+  min-width: 30px;
+  padding: 5px 15px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+input[type=text]:focus {
+  box-shadow: 0 0 5px 2px rgba(104, 222, 98, 1);
+}
+
+/************************/
+/******** button (共通) ********/
+/************************/
+
+button.button_common {
+  display: block;
+  font-weight: bold;
+  color: rgba(6, 79, 6, 1);
+  background-color: rgba(255, 255, 255, 1);
+  background-image: linear-gradient(0deg, rgba(104, 222, 98, 1) 0%, rgba(104, 222, 98, 0.5) 100%);
+  margin: 5px 0;
+  padding:0 20px;
+  border: 1px solid rgba(6, 79, 6, 1);
+  border-radius: 10px;
+  cursor: pointer;
+  outline: none;
+  height: 45px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+button.button_common:hover {
+  color: rgba(6, 79, 6, 0.8);
+  background-color: rgba(255, 255, 255, 1);
+  background-image: linear-gradient(0deg, rgba(104, 222, 98, 0.8) 0%, rgba(104, 222, 98, 0.3) 100%);
+}
+
+button.button_common:focus {
+  box-shadow: 0 0 5px 2px rgba(104, 222, 98, 1);
 }

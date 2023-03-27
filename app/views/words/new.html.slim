@@ -4,7 +4,7 @@
 .main_container
   h1
     | 単語追加
-  = form_with url: "/words", method: :post do |form|
+  = form_with url: "/words", method: :post, html: { 'data-persist' => 'garlic', 'data-destroy' => 'false' } do |form|
     - if @confirming
       | 以下の単語を追加します。宜しいですか？
       br
@@ -27,7 +27,7 @@
         input type="hidden" name="confirmed" value="true"
         input type="hidden" name="new_word" value="#{params[:new_word]}"
         input type="hidden" name="tags" value="#{params[:tags]}"
-        button type="submit"
+        button.button_common type="submit"
           | 追加
     - else
       | 新しい単語（IT用語など）を追加します。
@@ -57,7 +57,7 @@
                 onChange="void(value && (value = formatTags(value)))"
                 title="タグは半角英数字、全角カタカナ、ひらがな、漢字、アンダースコアのみで入力してください。"
                 onInput="void(0)"]
-        button type="submit"
+        button.button_common type="submit"
           | 追加
 
 javascript:
