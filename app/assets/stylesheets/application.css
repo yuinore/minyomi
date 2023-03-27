@@ -40,7 +40,8 @@ body {
     100px 1200px;
   background-repeat:
     no-repeat,
-    repeat-x, /* for iOS? */
+    /* ↓ for iOS? */
+    repeat-x,
     repeat,
     repeat-x,
     repeat-x,
@@ -447,7 +448,7 @@ button.button_common {
   background-color: rgba(255, 255, 255, 1);
   background-image: linear-gradient(0deg, rgba(104, 222, 98, 1) 0%, rgba(104, 222, 98, 0.5) 100%);
   margin: 5px 0;
-  padding:0 20px;
+  padding: 0 20px;
   border: 1px solid rgba(6, 79, 6, 1);
   border-radius: 10px;
   cursor: pointer;
