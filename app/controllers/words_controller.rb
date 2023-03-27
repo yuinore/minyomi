@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class WordsController < ApplicationController
-  skip_before_action :check_logged_in, only: [:show]
+  skip_before_action :check_logged_in, only: [:index, :show]
 
   def index
-    @words = Word.includes(:choices).order(:id).to_a
+    @words_index = Word.order(:id).pluck(:name, :slug).group_by { |_, slug| slug[0] }.sort
   end
 
   def show
@@ -34,11 +34,11 @@ class WordsController < ApplicationController
   end
 
   def create
-    @slug = params[:new_word].downcase.tr(' ', '_').gsub(/[^a-zA-Z_-]+/, '')
+    @slug = params[:new_word].downcase.tr(' ', '_').gsub(/[^0-9a-zA-Z_-]+/, '')
 
     if Word.where(slug: @slug).count != 0
       # 単語が異なっていて slug だけ一致する場合のことはおいおい考える
-      return render plain: '単語がすでに存在している可能性があります。もう一度お試しください。', status: :forbidden
+      return redirect_to new_word_path, alert: "単語「#{params[:new_word]}」はすでに存在している可能性があります。もう一度お試しください。"
     end
 
     if params[:confirmed].nil? || params[:confirmed] != 'true'
@@ -56,6 +56,6 @@ class WordsController < ApplicationController
     )
 
     # render json: params
-    redirect_to word_path(@slug)
+    redirect_to word_path(@slug), notice: '単語を追加しました。'
   end
 end

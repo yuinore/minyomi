@@ -24,6 +24,9 @@ class Word < ApplicationRecord
   has_many :choices, -> { order(:id) }, dependent: :destroy, inverse_of: :word
 
   # 許容する文字種は要検討
-  validates :name, format: { with: /\A[A-Za-z0-9., _-]+\z/ }, length: { maximum: 100 }
-  validates :tags, length: { maximum: 100 }
+  NAME_REGEX = /\A[A-Za-z0-9., _-]+\z/
+  TAG_CHARS_REGEX = /[A-Za-z0-9_ぁ-んァ-ヶー一-龠]+/
+  TAGS_REGEX = /\A(|(##{TAG_CHARS_REGEX})( ##{TAG_CHARS_REGEX})*)\z/
+  validates :name, format: { with: NAME_REGEX }, length: { maximum: 100 }
+  validates :tags, format: { with: TAGS_REGEX }, length: { maximum: 100 }
 end
