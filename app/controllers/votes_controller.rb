@@ -4,14 +4,16 @@ class VotesController < ApplicationController
   skip_before_action :check_logged_in, only: [:create]
 
   def index
-    @votes = Vote.order(:id).to_a
+    return render plain: '403', status: :forbidden unless current_user&.admin?
+
+    @votes = Vote.order(:id).limit(10000).to_a
   end
 
   def create
     choice_id_string = params[:choice_id].split('_')[1]
-    return render json: { choices: [] } if choice_id_string == 'others'
-
     choice_id_integer = choice_id_string.to_i
+
+    return render plain: '403', status: :forbidden if choice_id_string != choice_id_integer.to_s
 
     word = Word.find(params[:word_id].to_i)
     return if word.nil?

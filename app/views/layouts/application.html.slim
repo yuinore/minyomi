@@ -1,17 +1,22 @@
 doctype html
+- title = "#{@word.nil? ? "" : "#{@word.name} | "}みんヨミ！ ～みんなの読み方教えてよ！～"
 html
   head
     title
-      - unless @word.nil?
-        = "#{@word.name} | "
-      | みんヨミ！ ～みんなの読み方教えてよ！～
+      = title
     meta[name="viewport" content="width=device-width,initial-scale=1"]
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
 
+    /! libraries
     script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"
+    script src="https://code.jquery.com/jquery-3.6.4.min.js"
+    script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+    link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"
+    script src="https://cdnjs.cloudflare.com/ajax/libs/garlic.js/1.4.2/garlic.min.js"
 
+    /! fonts
     link rel="preconnect" href="https://koruri.chillout.chat"
     link rel="stylesheet" href="https://koruri.chillout.chat/koruri.css"
 
@@ -19,6 +24,20 @@ html
     link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""
     link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"
 
+    /! Twitter Card
+    meta[name="twitter:card" content="#{@twitter_card_image ? "summary_large_image" : "summary"}"]
+    meta[name="twitter:site" content="@yuinore"]
+    meta[name="twitter:title" content="#{title}"]
+    meta[name="twitter:description" content="#{@word.nil? ? "なかなか読み方が定まらないことの多いIT用語、そんなIT用語を中心に、いろいろな英単語の読み方に投票していきませんか？" : "「#{@word.name}」、このIT用語、みんなは何て読む？"}"]
+    meta[name="twitter:image" content="https://minyomi.org#{@twitter_card_image || "/favicon.png"}"]
+
+    /! favicon
+    link[rel="icon" href="/favicon.png" sizes="32x32"]
+    link[rel="icon" href="/favicon.png" sizes="192x192"]
+    link[rel="apple-touch-icon-precomposed" href="/favicon.png"]
+    meta[name="msapplication-TileImage" content="/favicon.png"]
+
+    /! viewport
     meta name="viewport" content="width=device-width,initial-scale=1"
 
     = yield :stylesheets
@@ -40,6 +59,14 @@ html
       = yield
       hr
       .main_footer
+        div
+          a[href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+            class="twitter-share-button"
+            data-text="#{title}"
+            data-show-count="false"]
+            Tweet
+          | <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        br
         | みんヨミ！ ～みんなの読み方教えてよ！～
         br
         | Copyright © 2023-2023 @yuinore Some Rights Reserved.
@@ -47,3 +74,11 @@ html
         - if ENV.fetch('RAILS_ENV') == 'development'
           = "session_key: #{session[:session_key]}"
           br
+
+- if notice
+  javascript:
+    toastr.success("#{notice}");
+
+- if alert
+  javascript:
+    toastr.error("#{alert}");

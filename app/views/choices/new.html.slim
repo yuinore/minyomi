@@ -17,10 +17,9 @@
           = params[:new_choice]
 
   = form_with url: "/choices", method: :post do |form|
-    .new_yomikata
-      input type="hidden" name="word_id" value="#{params[:word_id]}"
-      input type="hidden" name="word_slug" value="#{params[:word_slug]}"
-      input type="hidden" name="new_choice" value="#{params[:new_choice]}"
-      input type="hidden" name="confirmed" value="true"
-      button type="submit"
-        | 追加
+    input type="hidden" name="word_id" value="#{params[:word_id]}"
+    input type="hidden" name="word_slug" value="#{params[:word_slug]}"
+    input type="hidden" name="new_choice" value="#{params[:new_choice]}"
+    input type="hidden" name="confirmed" value="true"
+    button.button_common type="submit"
+      | 追加
