@@ -34,7 +34,14 @@ class WordsController < ApplicationController
   end
 
   def create
-    @slug = params[:new_word].downcase.tr(' ', '_').gsub(/[^0-9a-zA-Z_-]+/, '')
+    @slug = params[:new_word]
+            .downcase
+            .tr(' ', '_')
+            .tr('/', '_')
+            .gsub(/#/, 'sharp')
+            .gsub(/\+/, 'plus')
+            .gsub(/@/, 'at')
+            .gsub(/[^0-9a-zA-Z_-]+/, '')
 
     if Word.where(slug: @slug).count != 0
       # 単語が異なっていて slug だけ一致する場合のことはおいおい考える

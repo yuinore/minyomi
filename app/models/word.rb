@@ -27,7 +27,7 @@ class Word < ApplicationRecord
   #   '+' => C++ を単語名やタグに使いたい
   #   '#' => C# を単語名やタグに使いたいが、タグは混乱を招く可能性がある（要検討）
   #   '/' =?> TCP/IP を単語名やタグに使いたい
-  NAME_REGEX = /\A[A-Za-z0-9., _-]+\z/
+  NAME_REGEX = %r{\A[A-Za-z0-9., _+#/@-]+\z}
   TAG_CHARS_REGEX = /[A-Za-z0-9_ぁ-んァ-ヶー一-龠]+/
   TAGS_REGEX = /\A(|(##{TAG_CHARS_REGEX})( ##{TAG_CHARS_REGEX})*)\z/
   validates :name, format: { with: NAME_REGEX }, length: { maximum: 100 }, on: :create
