@@ -4,7 +4,7 @@ class WordsController < ApplicationController
   skip_before_action :check_logged_in, only: [:index, :show]
 
   def index
-    @words_index = Word.order(:id).pluck(:name, :slug).group_by { |_, slug| slug[0] }.sort
+    @words_index = Word.order(:id).pluck(:name, :slug).group_by { |name, _slug| name[0].downcase }.sort
   end
 
   def show
@@ -34,7 +34,9 @@ class WordsController < ApplicationController
   end
 
   def create
-    @slug = params[:new_word]
+    @new_word = params[:new_word].strip.squeeze(' ')
+
+    @slug = @new_word
             .downcase
             .tr(' ', '_')
             .tr('/', '_')
@@ -43,9 +45,25 @@ class WordsController < ApplicationController
             .gsub(/@/, 'at')
             .gsub(/[^0-9a-zA-Z_-]+/, '')
 
+    if @slug == ''
+      # name に '.' などを入力すると @slug が空文字列になることがある
+      return redirect_to new_word_path, alert: "単語「#{@new_word}」は短すぎる可能性があります。別の単語をお試しください。"
+    end
+
     if Word.where(slug: @slug).count != 0
       # 単語が異なっていて slug だけ一致する場合のことはおいおい考える
-      return redirect_to new_word_path, alert: "単語「#{params[:new_word]}」はすでに存在している可能性があります。もう一度お試しください。"
+      return redirect_to new_word_path, alert: "単語「#{@new_word}」はすでに存在している可能性があります。別の単語をお試しください。"
+    end
+
+    word_active_record = Word.new(
+      name: @new_word,
+      slug: @slug,
+      tags: params[:tags]
+    )
+
+    unless word_active_record.valid?
+      # '#' を100個つなげた単語などを入力した場合
+      return redirect_to new_word_path, alert: "単語「#{@new_word}」は登録できない可能性があります。別の単語をお試しください。"
     end
 
     if params[:confirmed].nil? || params[:confirmed] != 'true'
@@ -56,11 +74,7 @@ class WordsController < ApplicationController
     @confirming = true
     @confirmed = true
 
-    Word.create!(
-      name: params[:new_word],
-      slug: @slug,
-      tags: params[:tags]
-    )
+    word_active_record.save!
 
     # render json: params
     redirect_to word_path(@slug), notice: '単語を追加しました。'
