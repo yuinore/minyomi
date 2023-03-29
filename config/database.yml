@@ -15,7 +15,7 @@ default: &default
   collation: utf8mb4_bin
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: root
-  password: <%= ENV.fetch("DB_PASSWORD") { "" } %>
+  password: "<%= ENV.fetch("MINYOMI_DATABASE_PASSWORD") { "" } %>"
   socket: /var/run/mysqld/mysqld.sock
 
 development:
@@ -52,5 +52,5 @@ test:
 production:
   <<: *default
   database: minyomi_production
-  username: minyomi
-  password: <%= ENV["MINYOMI_DATABASE_PASSWORD"] %>
+  username: root
+  password: "<%= ENV.fetch("MINYOMI_DATABASE_PASSWORD") { "" } %>"

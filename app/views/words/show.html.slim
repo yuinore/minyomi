@@ -142,6 +142,9 @@ javascript:
           });
           const notifyMsg = `「${choiceName}」に投票しました。`;
           toastr.success(notifyMsg);
+        }).catch((error) => {
+          console.log(error);
+          toastr.error(`投票に失敗しました。メッセージ：${error.message}`);
         });
     }, 2000);
   }
