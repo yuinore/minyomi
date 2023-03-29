@@ -23,6 +23,11 @@
 class Word < ApplicationRecord
   has_many :choices, -> { order(:id) }, dependent: :destroy, inverse_of: :word
 
+  # NAME_CHARS_REGEX      = %r{[ A-Za-z0-9.,_+#/@-]*}
+  # NAME_FIRST_LAST_REGEX = %r{[A-Za-z0-9.,_+#/@-]}
+  # TAG_CHARS_REGEX       = /[A-Za-z0-9_ぁ-んァ-ヶー一-龠]+/
+  # NAME_REGEX = /\A#{NAME_FIRST_LAST_REGEX}(#{NAME_CHARS_REGEX}#{NAME_FIRST_LAST_REGEX})?\z/
+
   # 許容する文字種は要検討
   #   '+' => C++ を単語名やタグに使いたい
   #   '#' => C# を単語名やタグに使いたいが、タグは混乱を招く可能性がある（要検討）
@@ -32,4 +37,5 @@ class Word < ApplicationRecord
   TAGS_REGEX = /\A(|(##{TAG_CHARS_REGEX})( ##{TAG_CHARS_REGEX})*)\z/
   validates :name, format: { with: NAME_REGEX }, length: { maximum: 100 }, on: :create
   validates :tags, format: { with: TAGS_REGEX }, length: { maximum: 100 }
+  validates :slug, length: { minimum: 1, maximum: 120 }
 end
