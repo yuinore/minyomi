@@ -71,6 +71,10 @@ group :development do
   gem 'rubocop-rails', require: false
 end
 
+group :production do
+  gem 'unicorn'
+end
+
 gem 'activerecord-import'
 gem 'dotenv-rails'
 gem 'html2slim'
