@@ -12,7 +12,7 @@
         span
           | 単語：
           .new_word_confirm_bold
-            = "#{params[:new_word]}"
+            = "#{@new_word}"
         br
         span
           | URL：
@@ -25,7 +25,7 @@
             = "#{params[:tags]}"
       .new_word
         input type="hidden" name="confirmed" value="true"
-        input type="hidden" name="new_word" value="#{params[:new_word]}"
+        input type="hidden" name="new_word" value="#{@new_word}"
         input type="hidden" name="tags" value="#{params[:tags]}"
         button.button_common type="submit"
           | 追加
